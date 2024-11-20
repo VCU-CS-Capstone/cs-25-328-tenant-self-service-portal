@@ -147,7 +147,7 @@ export default {
   padding: 0px;
   background-color: #017291;
   color: white;
-  min-height: 100vh;
+  min-height: 91.6vh;
 }
 
 .boxes {
