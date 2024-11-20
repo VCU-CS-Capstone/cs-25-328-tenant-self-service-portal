@@ -212,9 +212,12 @@ export default {
   color:#017291;
   font-weight: bold;
   border: white;
-
+  cursor: pointer;
 }
 
+.actions-grid button:hover  {
+  background-color: #87c6d7;
+}
 /* Call-to-Action Buttons 2x2 Grid */
 .cta-buttons-grid {
   display: grid;
@@ -233,7 +236,8 @@ export default {
 }
 
 .cta-buttons-grid button:hover {
-  background-color: #015e78; /* Slightly darker on hover */
+  background-color: #f5f6f7; /* Slightly darker on hover */
+  color:#017291;
 }
 
 .cta-box {
