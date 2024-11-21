@@ -1,29 +1,15 @@
 <template>
-  <!-- <div id="app"> -->
-    <!-- <header class="header">
-      <h1>Gallery</h1>
-      <nav>
-        <router-link to="/">Dashboard</router-link>
-        <router-link to="/usecase">Use cases</router-link>
-        <router-link to="/dataset">Datasets</router-link>
-      </nav>
-    </header> -->
-  <body>
-    <HomeScreen />
-  </body>
-    <!-- <router-view></router-view> -->
-  <!-- </div> -->
+  <div id="app">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import HomeScreen from './components/HomeScreen.vue'
+// import Header from './components/Header.vue';
 
 export default {
-  name: 'App',
-  components: {
-    HomeScreen,
-  }
-}
+  name: 'App'
+};
 </script>
 
 <style>

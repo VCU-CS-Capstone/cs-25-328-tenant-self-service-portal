@@ -136,7 +136,7 @@ export default {
   background-color: #ffffff;
   overflow: hidden;
   border-bottom: 1px solid black;
-  min-height: 15px;
+  min-height: 12px;
 }
 
 .main-container {
@@ -148,7 +148,7 @@ export default {
   background-color: #017291;
   color: white;
   position: absolute;
-  top: 110px;
+  top: 106px;
   bottom: 0px;
   width: 100%;
 }
@@ -219,7 +219,7 @@ export default {
 }
 
 .actions-grid button:hover  {
-  background-color: #87c6d7;
+  background-color: #a9dcea;
 }
 /* Call-to-Action Buttons 2x2 Grid */
 .cta-buttons-grid {

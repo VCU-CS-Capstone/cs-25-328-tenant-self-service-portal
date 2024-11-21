@@ -2,12 +2,12 @@
     
   <div class="nav">
       <img alt="Gallery logo" class="logo" src="../assets/figmalogo.png">
-      <a1 href="#">Gallery</a1>
+      <b href="#">Gallery</b>
       <div class="stuff">
           
-          <a href="/Datasets">Datasets</a>
-          <a href="/Use Cases">Use Cases</a>
-          <a href="/">Dashboard</a>
+          <a href="/DatasetRegistration">Dataset</a> <!-- need to figure out how to change to router-link and -->
+          <a href="/UseCaseRegistration">Use Cases</a>
+          <a href="/HomeScreen">Dashboard</a>
           <a href="#">🔍</a>
       </div>
       
@@ -31,9 +31,9 @@
       background-color: #ffffff;
       overflow: hidden;
       border-bottom: 2px solid black;
-      filter: drop-shadow(0px 7px 5px rgba(0, 0, 0, 0.25));
+      filter: drop-shadow(0px 3px 2px rgba(0, 0, 0, 0.25));
   }
-  .nav a1{
+  .nav b{
       float: left;
       color: #033450;
       padding: 14px 0px;
@@ -54,7 +54,7 @@
       text-decoration: none;
       margin-right: 10 px;
   }
-  .nav a:hover{
+  .stuff a:hover{
       text-underline-offset: 20px;
       text-decoration: underline #015e78;
       text-decoration-thickness: 6px;
