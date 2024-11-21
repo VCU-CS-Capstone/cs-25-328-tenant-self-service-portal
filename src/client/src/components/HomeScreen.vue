@@ -147,7 +147,10 @@ export default {
   padding: 0px;
   background-color: #017291;
   color: white;
-  min-height: 91.6vh;
+  position: absolute;
+  top: 110px;
+  bottom: 0px;
+  width: 100%;
 }
 
 .boxes {
