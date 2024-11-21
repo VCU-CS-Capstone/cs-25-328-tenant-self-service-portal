@@ -81,8 +81,8 @@ export default {
   data() {
     return {
       useCases: [
-        { id: 1, name: 'Use case name 1' },
-        { id: 2, name: 'Use case name 2' },
+        { id: 1, name: 'Use case naesssme 1' },
+        { id: 2, name: 'Use case nassssssssme 2' },
         { id: 3, name: 'Use case name 3' },
         { id: 4, name: 'Use case name 4' },
         { id: 5, name: 'Use case name 5' },
