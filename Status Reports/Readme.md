@@ -17,7 +17,7 @@ Weekly status reports go into this folder
 | Week 10 Status Report </br> Week starting 10/27 | Developing frontend for demo | Completed and implemented project hierarchy; project structure defined with tech stack; Worked on more endpoints | Slack communication got blocked on Capital One network |
 | Week 11 Status Report </br> Week starting 11/3 | Work on file design poster; continue development | Completed majority of design poster | Make some adjustments to design poster as requested by sponsor & advisor |
 | Week 12 Status Report </br> Week starting 11/10 | Continue working on demo | Made adjustments and finalized design poster; Discussed tech stack configuration with project specifications | |
-| Week 13 Status Report </br> Week starting 11/17 | | | |
+| Week 13 Status Report </br> Week starting 11/17 | Complete UI for dataset creation; Get .js and .json formatting to work with backend; Implementing more endpoints | | Wrapping up things for other classes |
 | Week 14 Status Report | | | |
 | Week 15 Status Report | | | |
 | Week 16 Status Report | | | |
