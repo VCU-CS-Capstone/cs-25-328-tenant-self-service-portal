@@ -21,6 +21,7 @@ Preetam Ghosh - CS - Faculty Advisor
    - Work on file design poster
    - Continue development and implementing screens for demo
 ## 2) Milestones to be completed next week ##
-   - Completed majority of design poster	Make some adjustments to design poster as requested by sponsor & advisor
+   - Completed majority of design poster
+   - Make some adjustments to design poster as requested by sponsor & advisor
 ## 3) Issues, problems or concerns ##
    - Slightly behind schedule for development, will pick up by Thanksgiving
