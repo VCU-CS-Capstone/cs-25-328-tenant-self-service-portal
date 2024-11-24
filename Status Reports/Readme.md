@@ -1,25 +1,19 @@
 # Status Reports Folder
 Weekly status reports go into this folder
 
-This Readme.md serves as the front page of this folder - update the table with very succinct weekly reports.
-
-Project Plan.md is a document that should be updated accordingly as the project develops through the year.
-
-Status Report Fall Week XX.md is a template for to copy-paste into new Status reports you generate every week.
-
 ## Fall Semester
 
 | Document | Tasks | Accomplishments | Issues |
 |---|---|---|---|
-| Week 1 Status Report | Organize roles and meetings & complete team contract | Meetings and roles set | Need more technical details about project. Will be done next meeting |
-| Week 2 Status Report | Meeting with faculty advisor and sponsor to get additional information about project | Complete team contract | |
-| Week 3 Status Report | Set-up GitHub repository, schedule weekly meeting with sponsor & advisor | Created repository and updated teams sections accordingly | Assigning roles for different aspects of the project |
-| Week 4 Status Report | Get additional information about technicals and start development | Received technical information & requirements from sponsor | Repository about section not updated, along with visibility permissions and team users |
-| Week 5 Status Report | | | |
-| Week 6 Status Report | | | |
-| Week 7 Status Report | | | |
-| Week 8 Status Report | | | |
-| Week 9 Status Report | | | |
+| Week 1 Status Report </br> Week starting 8/25 | Organize roles and meetings & complete team contract | Set date and time for meetings; set roles | Need more technical details about project. Will be done next meeting |
+| Week 2 Status Report </br> Week starting 9/1 | Meeting with faculty advisor and sponsor to get information about project; finish team contract | Complete team contract | |
+| Week 3 Status Report </br> Week starting 9/8 | Set-up GitHub teams & repository, schedule weekly meeting with sponsor & advisor | Created repository and updated teams sections accordingly; Met with sponsor on Friday and scheduled weekly meetings | Assigning roles for different aspects of the project (delegating tasks for skillsets); Permission issues on GitHub |
+| Week 4 Status Report </br> Week starting 9/15 | Get additional information about technicals and start development | Received technical information & requirements from sponsor; fixed permissions | Repository about section not updated |
+| Week 5 Status Report </br> Week starting 9/22 | Complete project scope & deliverables document | Addressed requirements and discussed implementation steps (to be further refined) | Slight lull period; difficult to arrange meetings and collaborate due to exams and personal issues |
+| Week 6 Status Report </br> Week starting 9/29 | Reiterate meeting times; set up tech stack; complete project proposal presentation; Develop workflow diagram for sponsor | Planned out goals with sponsor and advisor involving data sets, mockups, and access; Completed and presented project proposal presentation | No visual progress on implementation (missing requirements); weekly report is behind |
+| Week 7 Status Report </br> Week starting 10/6 | Update weekly status document; improve workflow | Updated weekly status document | Mid-term week |
+| Week 8 Status Report </br> Week starting 10/13 | | | |
+| Week 9 Status Report 10/20 | | | |
 | Week 10 Status Report | | | |
 | Week 11 Status Report | | | |
 | Week 12 Status Report | | | |
