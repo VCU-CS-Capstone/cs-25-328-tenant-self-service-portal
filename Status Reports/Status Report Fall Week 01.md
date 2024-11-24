@@ -1,4 +1,4 @@
-# *CS 25-328 Tenant Self-service-portal*
+# *CS 25-328 Tenant Self-Service-Portal*
 
 Students' Names:
 
