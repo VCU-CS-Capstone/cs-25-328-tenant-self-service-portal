@@ -18,13 +18,13 @@ Faculty Advisor:
 Preetam Ghosh - CS - Faculty Advisor
 
 ## 1) Accomplishments this week ##
-   - Set Meeting times and roles
-   - Complete team contract and github repo setup
-   - Notion/Discord/Github/Slack set up for efficient collaboration
+   - Lots of frontend development
 ## 2) Milestones to be completed next week ##
-   - Obtain tchnical detail needed for project. Will be done in meeting with sponsors
+   - Complete UI for dataset creation
+   - Get .js and .json formatting to work with backend
+   - Implementing more endpoints	
 ## 3) Issues, problems or concerns ##
-   - Need more information about project
+   - Scheduling before break
 
    
 
