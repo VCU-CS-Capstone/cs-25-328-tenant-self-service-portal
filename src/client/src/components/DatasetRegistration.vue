@@ -85,6 +85,7 @@ export default {
   methods: {
     addNewDataset() {
       console.log("Add New Dataset button clicked");
+      this.$router.push({name: 'AddDatasetBasicInformation' });
     },
   },
 };

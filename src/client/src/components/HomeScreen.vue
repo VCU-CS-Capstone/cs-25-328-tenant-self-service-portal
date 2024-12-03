@@ -116,6 +116,7 @@ export default {
     },
     addNewDataset() {
       console.log('Add new dataset');
+      this.$router.push({name: 'AddDatasetBasicInformation' });
     },
     reviewDatasets() {
       console.log('Review datasets');
