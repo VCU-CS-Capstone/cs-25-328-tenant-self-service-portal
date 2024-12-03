@@ -1,67 +1,17 @@
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery Dashboard</title>
-    <link rel="stylesheet" href="style_main.css">
-</head>
-
-<header>
-    <div class="logo">
-        <h1>Gallery</h1>
-    </div>
-
-    <div class="logo">
-        <a href="#">🔍 </a>
-        <a href="#">Dashboard </a>
-        <a href="#">Use cases </a>
-        <a href="#">Datasets </a>
-    </div>
-</header>
-
-<body>
-    <div class="container">
-        <main>
-            <div class="dashboard">
-                <div class="card">
-                    <h3>Use Cases</h3>
-                    <ul>
-                        <li>Use case name 1 <span>✏️ ⭐</span></li>
-                        <li>Use case name 2 <span>✏️ ⭐</span></li>
-                        <li>Use case name 3 <span>✏️ ⭐</span></li>
-                        <li>Use case name 4 <span>✏️ ⭐</span></li>
-                        <li>Use case name 5 <span>✏️ ⭐</span></li>
-                    </ul>
-                    <div class="card-actions">
-                        <a href="#">Add New</a>  <a href="#">Review</a>  <a href="#">View All</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <h3>Datasets</h3>
-                    <ul>
-                        <li>Dataset name 1 <span>✏️ ⭐</span></li>
-                        <li>Dataset name 2 <span>✏️ ⭐</span></li>
-                        <li>Dataset name 3 <span>✏️ ⭐</span></li>
-                        <li>Dataset name 4 <span>✏️ ⭐</span></li>
-                        <li>Dataset name 5 <span>✏️ ⭐</span></li>
-                    </ul>
-                    <div class="card-actions">
-                        <a href="#">Add New</a>  <a href="#">Review</a>  <a href="#">View All</a>
-                    </div>
-                </div>
-            </div>
-            <div class="actions">
-                <h2>What would you like to do today?</h2>
-                <p>We'll guide you through filling in this info. You can always save, step away and return right where you left off.</p>
-                <div class="button-group">
-                    <button onclick="alert('Add new use case')">Add new use case</button>
-                    <button onclick="alert('Review pending use cases')">Review pending use cases</button>
-                    <button onclick="alert('Add new dataset')">Add new dataset</button>
-                    <button onclick="alert('Review pending datasets')">Review pending datasets</button>
-                </div>
-            </div>
-        </main>
-    </div>
-</body>
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
 </html>

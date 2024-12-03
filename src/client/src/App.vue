@@ -1,30 +1,32 @@
 <template>
   <div id="app">
-    <header class="header">
-      <h1>Gallery</h1>
-      <nav>
-        <router-link to="/">Dashboard</router-link>
-        <router-link to="/usecase">Use cases</router-link>
-        <router-link to="/dataset">Datasets</router-link>
-      </nav>
-    </header>
-
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+// import Header from './components/Header.vue';
+
 export default {
   name: 'App'
-}
+};
 </script>
 
-<style scoped>
+<style>
 #app {
-  font-family: Arial, sans-serif;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #017291;
+  /* margin-top: 60px; */
+}
+body{
+  padding:0;
+  margin:0;
 }
 
-.header {
+/* .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,5 +38,5 @@ export default {
 .header nav a {
   color: #004d66;
   margin-right: 15px;
-}
+} */
 </style>
