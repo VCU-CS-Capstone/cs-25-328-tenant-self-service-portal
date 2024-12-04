@@ -1,14 +1,23 @@
 <template>
-  <div class="app">
-    <router-view></router-view>
+  <div id="app">
+    <Header />
+    <RouterView v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component"/>
+      </transition>
+    </RouterView>
   </div>
 </template>
 
 <script>
+import Header from './components/Header.vue'
 
 export default {
-  name: 'App'
-};
+  name: 'App',
+  components: {
+    Header
+  }
+}
 </script>
 
 <style>
@@ -19,10 +28,12 @@ export default {
   text-align: left;
   color: #017291;
 }
-body{
-  padding:0;
-  margin:0;
+
+body {
+  padding: 0;
+  margin: 0;
 }
+
 .header {
   display: flex;
   justify-content: space-evenly;
@@ -30,5 +41,14 @@ body{
   background-color: #FFFFFF;
   color: #004d66;
   padding: 0px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

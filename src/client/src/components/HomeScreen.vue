@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- Header Component -->
-    <Header />
-
     <div class="space"></div>
 
     <!-- Main Content -->
@@ -70,13 +67,14 @@
 </template>
 
 <script>
-import Header from './Header.vue';
+import { useRouter } from 'vue-router'
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'HomeScreen',
-  components: {
-    Header,
+  setup() {
+    const router = useRouter();
+    return { router };
   },
   data() {
     return {
@@ -100,7 +98,7 @@ export default {
   },
   methods: {
     addNewUseCase() {
-      console.log('Add new use case');
+      console.log('Add use case')
     },
     reviewUseCases() {
       console.log('Review use cases');
@@ -115,10 +113,10 @@ export default {
       console.log(`Delete use case ${id}`);
     },
     addNewDataset() {
-      console.log('Add new dataset');
+      this.router.push('/datasets/register/');
     },
     reviewDatasets() {
-      console.log('Review datasets');
+      this.router.push('/datasets');
     },
     viewAllDatasets() {
       console.log('View all datasets');
@@ -131,7 +129,6 @@ export default {
 </script>
 
 <style scoped>
-
 .space {
   background-color: #ffffff;
   overflow: hidden;
@@ -181,14 +178,14 @@ export default {
   padding: 10px;
   background-color: #ffffff;
   font-weight: bold;
-  font-size: 13px; 
+  font-size: 13px;
 }
 
 .box ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  
+
 }
 
 .box li {
@@ -199,7 +196,7 @@ export default {
 
 .box h3 {
   text-align: left;
-  
+
 }
 
 
@@ -212,15 +209,16 @@ export default {
   padding: 5px 10px;
   font-size: 14px;
   background-color: white;
-  color:#017291;
+  color: #017291;
   font-weight: bold;
   border: white;
   cursor: pointer;
 }
 
-.actions-grid button:hover  {
+.actions-grid button:hover {
   background-color: #a9dcea;
 }
+
 /* Call-to-Action Buttons 2x2 Grid */
 .cta-buttons-grid {
   display: grid;
@@ -233,14 +231,16 @@ export default {
   background-color: #017291;
   padding: 10px;
   font-size: 14px;
-  border: 1px solid white; /* White border */
+  border: 1px solid white;
+  /* White border */
   border-radius: 3px;
   cursor: pointer;
 }
 
 .cta-buttons-grid button:hover {
-  background-color: #f5f6f7; /* Slightly darker on hover */
-  color:#017291;
+  background-color: #f5f6f7;
+  /* Slightly darker on hover */
+  color: #017291;
 }
 
 .cta-box {

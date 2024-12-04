@@ -1,13 +1,48 @@
+<template>
+  <div>
+    <!-- Header Section for the Dataset Registration -->
+    <div class="header">
+      <nav>
+        <a href="#" @click.prevent="setFilter('all')" :class="{ active: activeFilter === 'all' }">All Datasets</a>
+        <a href="#" @click.prevent="setFilter('pending')" :class="{ active: activeFilter === 'pending' }">Pending
+          Datasets</a>
+        <a href="#" @click.prevent="setFilter('review')" :class="{ active: activeFilter === 'review' }">Review Datasets
+          for Approval</a>
+        <a href="#" @click.prevent="setFilter('mine')" :class="{ active: activeFilter === 'mine' }">Datasets Created by
+          Me</a>
+      </nav>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="main-container">
+      <div class="dataset-grid">
+        <div v-for="dataset in datasets" :key="dataset.id" class="dataset-card">
+          <div class="dataset-actions">
+            <h3 class="dataset-name">{{ dataset.name }}</h3>
+            <input type="radio" name="select-dataset" :id="dataset.id" />
+          </div>
+          <p>{{ dataset.description }}</p>
+        </div>
+      </div>
+
+      <!-- Add Dataset Button -->
+      <button class="add-dataset-btn" @click="addNewDataset">+</button>
+    </div>
+  </div>
+</template>
+
 <script>
-import Header from "./Header.vue";
+import { useRouter } from 'vue-router';
 
 export default {
   name: "DatasetRegistration",
-  components: {
-    Header,
+  setup() {
+    const router = useRouter();
+    return { router };
   },
   data() {
     return {
+      activeFilter: 'all',
       datasets: [
         {
           id: 1,
@@ -50,45 +85,15 @@ export default {
   },
   methods: {
     addNewDataset() {
-      console.log("Add New Dataset button clicked");
+      this.router.push('/datasets/register');
     },
+    setFilter(filter) {
+      this.activeFilter = filter;
+      // Add filtering logic based on the data collected through backend
+    }
   },
 };
 </script>
-
-<template>
-  <div>
-    <Header />
-    <!-- Header Section for the Dataset Registration -->
-    <div class="header">
-      <nav>
-        <a href="#">All Datasets</a>
-        <a href="#">Pending Datasets</a>
-        <a href="#">Review Datasets for Approval</a>
-        <a href="#">Datasets Created by Me</a>
-      </nav>
-    </div>
-
-    <!-- Main Content Section -->
-    <div class="main-container">
-      <div class="dataset-grid">
-        <div
-          v-for="dataset in datasets"
-          :key="dataset.id"
-          class="dataset-card"
-        >
-          <div class="dataset-actions">
-            <h3 class="dataset-name">{{ dataset.name }}</h3>
-            <input type="radio" name="select-dataset" :id="dataset.id" />
-          </div>
-          <p>{{ dataset.description }}</p>
-        </div>
-      </div>
-      <!-- Add Dataset Button -->
-      <button class="add-dataset-btn" @click="addNewDataset"></button>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 /* Header styles */
@@ -106,11 +111,24 @@ nav a {
   text-decoration: none;
   font-weight: bold;
   font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
 nav a:hover {
   background-color: #a9dcea;
   color: #015e78;
+}
+
+nav a.active {
+  background-color: #017291;
+  color: #ffffff;
+}
+
+nav a.active:hover {
+  background-color: #015e78;
+  color: #ffffff;
 }
 
 /* Main content styles */
@@ -134,12 +152,14 @@ nav a:hover {
   border-top: 3.5px solid #017291;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative; /* For positioning the radio button */
+  position: relative;
+  /* For positioning the radio button */
 }
 
 .dataset-actions {
   display: flex;
-  justify-content: space-between; /* Name on the left, button on the right */
+  justify-content: space-between;
+  /* Name on the left, button on the right */
   align-items: center;
 }
 

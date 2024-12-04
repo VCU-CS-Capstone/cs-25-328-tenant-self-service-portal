@@ -1,13 +1,15 @@
 <template>
-    <div class="nav">
-        <img alt="Gallery logo" class="logo" src="../assets/figmalogo.png">
-        <a>Gallery</a>
-        <div class="header">
+    <nav class="nav">
+        <div class="nav-left">
+            <img alt="Gallery logo" class="logo" src="../assets/figmalogo.png">
+            <h1 class="title">Gallery</h1>
+        </div>
+        <div class="nav-right">
             <RouterLink to="/">Dashboard</RouterLink>
             <RouterLink to="/datasets">Datasets</RouterLink>
             <RouterLink to="/usecases">Use Cases</RouterLink>
         </div>
-    </div>
+    </nav>
 </template>
 
 <script>
@@ -18,39 +20,44 @@ export default {
 </script>
 
 <style scoped>
-.logo {
-    width: 90px;
-    float: left;
-    /* text-align: left; */
-}
-
 .nav {
     background-color: #ffffff;
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
     border-bottom: 2px solid black;
     filter: drop-shadow(0px 3px 2px rgba(0, 0, 0, 0.25));
 }
 
-.nav a {
-    float: left;
-    color: #033450;
-    padding: 14px 0px;
-    text-align: right;
-    font-size: 40px;
-    font-weight: 900;
-    font-style: bold;
-    text-decoration: none;
-    margin-right: 5 px;
+.nav-left {
+    display: flex;
+    align-items: center;
 }
 
-.header a {
-    float: right;
+.nav-right {
+    display: flex;
+}
+
+.logo {
+    width: 90px;
+    margin-right: 15px;
+}
+
+.title {
+    color: #033450;
+    font-size: 40px;
+    font-weight: 900;
+    margin: 0;
+}
+
+
+
+.nav-right a {
     color: #017291;
-    padding: 30px 30px;
-    text-align: right;
     font-size: 20px;
     font-weight: 600;
     text-decoration: none;
-    margin-right: 10 px;
+    margin-left: 30px;
 }
 </style>
