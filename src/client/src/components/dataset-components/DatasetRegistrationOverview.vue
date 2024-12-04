@@ -11,12 +11,10 @@
                     <span class="toggle-icon">{{ step.isOpen ? '▼' : '▲' }}</span>
                 </div>
                 <div v-if="step.isOpen" class="step-content">
-                    <p v-if="step.id === 1">Here you will select the dataset you wish to register</p>
-                    <p v-if="step.id === 2">Here you will fill out the basic information regarding the data set that you are registering</p>
-                    <p v-if="step.id === 3">Here you will select the image lifecycle management policies</p>
-                    <p v-if="step.id === 4">Here you will enter the metadata for the dataset</p>
-                    <p v-if="step.id === 5">Here you will enter the datasets document information</p>
-                    <p v-if="step.id === 6">Here you will review the registration and submit</p>
+                    <p v-if="step.id === 1">Here you will fill out the basic information regarding the data set that you are registering</p>
+                    <p v-if="step.id === 2">Here you will select the image lifecycle management policies</p>
+                    <p v-if="step.id === 3">Here you will select dataset channels</p>
+                    <p v-if="step.id === 4">Here you will specify fields related to dataset</p>
                 </div>
             </div>
         </div>
@@ -43,12 +41,10 @@ export default {
         return {
             currentStep: 0,
             steps: [
-                { id: 1, title: 'Select Dataset', isOpen: false },
-                { id: 2, title: 'Enter Basic Information', isOpen: false },
-                { id: 3, title: 'Select Image Lifecycle Management Policies', isOpen: false },
-                { id: 4, title: 'Enter Metadata', isOpen: false },
-                { id: 5, title: 'Enter Document Information', isOpen: false },
-                { id: 6, title: 'Review and submit', isOpen: false }
+                { id: 1, title: 'Enter basic information', isOpen: false },
+                { id: 2, title: 'Select Image Lifecycle Management policies', isOpen: false },
+                { id: 3, title: 'Select Dataset Channels', isOpen: false },
+                { id: 4, title: 'Specify fields related to dataset', isOpen: false },
             ]
         }
     },
@@ -58,7 +54,7 @@ export default {
             step.isOpen = !step.isOpen;
         },
         continueToStep1() {
-
+            this.router.push('/datasets/register/1')
         },
         goBack() {
             if (confirm("Are you sure you want to cancel this registration?")) {
