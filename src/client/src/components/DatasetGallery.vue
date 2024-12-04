@@ -1,37 +1,3 @@
-<template>
-  <div>
-    <Header />
-    <!-- Header Section for the Dataset Registration -->
-    <div class="header">
-      <nav>
-        <a href="#">All Datasets</a>
-        <a href="#">Pending Datasets</a>
-        <a href="#">Review Datasets for Approval</a>
-        <a href="#">Datasets Created by Me</a>
-      </nav>
-    </div>
-
-    <!-- Main Content Section -->
-    <div class="main-container">
-      <div class="dataset-grid">
-        <div
-          v-for="dataset in datasets"
-          :key="dataset.id"
-          class="dataset-card"
-        >
-          <div class="dataset-actions">
-            <h3 class="dataset-name">{{ dataset.name }}</h3>
-            <input type="radio" name="select-dataset" :id="dataset.id" />
-          </div>
-          <p>{{ dataset.description }}</p>
-        </div>
-      </div>
-      <!-- Add Dataset Button -->
-      <button class="add-dataset-btn" @click="addNewDataset">+</button>
-    </div>
-  </div>
-</template>
-
 <script>
 import Header from "./Header.vue";
 
@@ -89,6 +55,40 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <Header />
+    <!-- Header Section for the Dataset Registration -->
+    <div class="header">
+      <nav>
+        <a href="#">All Datasets</a>
+        <a href="#">Pending Datasets</a>
+        <a href="#">Review Datasets for Approval</a>
+        <a href="#">Datasets Created by Me</a>
+      </nav>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="main-container">
+      <div class="dataset-grid">
+        <div
+          v-for="dataset in datasets"
+          :key="dataset.id"
+          class="dataset-card"
+        >
+          <div class="dataset-actions">
+            <h3 class="dataset-name">{{ dataset.name }}</h3>
+            <input type="radio" name="select-dataset" :id="dataset.id" />
+          </div>
+          <p>{{ dataset.description }}</p>
+        </div>
+      </div>
+      <!-- Add Dataset Button -->
+      <button class="add-dataset-btn" @click="addNewDataset"></button>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 /* Header styles */

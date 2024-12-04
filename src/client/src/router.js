@@ -1,16 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router' //createWebHistory
+import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeScreen from './components/HomeScreen.vue'
-import DatasetRegistration from './components/DatasetRegistration.vue'
-import UseCaseRegistration from './components/UseCaseRegistration.vue'
-
+import DatasetGallery from './components/DatasetGallery.vue'
+import UseCaseGallery from './components/UseCaseGallery.vue'
 
 const routes = [
     { path: '/', component: HomeScreen },
-    { path: '/HomeScreen', component: HomeScreen },
-    { path: '/DatasetRegistration', component: DatasetRegistration },
-    { path: '/UseCaseRegistration', component: UseCaseRegistration },
-    
+    { path: '/datasets', component: DatasetGallery },
+    { path: '/usecases', component: UseCaseGallery },
 ]
 
 const router = createRouter({
