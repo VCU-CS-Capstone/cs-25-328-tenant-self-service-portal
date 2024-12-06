@@ -153,8 +153,12 @@
 
             <div class="form-buttons">
                 <button class="back-btn" @click="$emit('back')">Back</button>
-                <button class="submit-btn" @click="handleSubmit" :disabled="!isValid">
-                    Submit Dataset
+                <button 
+                    class="submit-btn" 
+                    @click="submitDataset" 
+                    :disabled="isSubmitting"
+                >
+                    {{ isSubmitting ? 'Submitting...' : 'Submit Dataset' }}
                 </button>
             </div>
         </div>
@@ -162,6 +166,10 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 export default {
     name: 'DatasetRegistrationStep5',
     
@@ -172,22 +180,44 @@ export default {
         }
     },
 
-    emits: ['update:formData', 'back', 'submit'],
+    emits: ['back'],
 
-    computed: {
-        isValid() {
-            // Add any final validation checks here
-            return true;
+    setup() {
+        const router = useRouter();
+        const isSubmitting = ref(false);
+
+        return {
+            router,
+            isSubmitting
         }
     },
 
     methods: {
-        goToStep(step) {
-            this.$router.push(`/datasets/register/steps/${step}`);
+        async submitDataset() {
+            if (!confirm('Are you sure you want to submit this dataset?')) {
+                return;
+            }
+
+            this.isSubmitting = true;
+            try {
+                const response = await axios.post('http://localhost:3000/datasets', this.formData);
+                console.log("Dataset submitted successfully:", response.data);
+                alert('Dataset created successfully!');
+                this.router.push('/datasets');
+            } catch (error) {
+                console.error("Error details:", {
+                    message: error.message,
+                    response: error.response?.data,
+                    status: error.response?.status
+                });
+                alert(`Error submitting dataset: ${error.response?.data?.message || error.message}`);
+            } finally {
+                this.isSubmitting = false;
+            }
         },
 
-        handleSubmit() {
-            this.$emit('submit', this.formData);
+        goToStep(step) {
+            this.router.push(`/datasets/register/steps/${step}`);
         }
     }
 }
@@ -299,6 +329,18 @@ h3 {
     border-radius: 4px;
 }
 
+.policy-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.policy-item {
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
 .form-buttons {
     display: flex;
     justify-content: space-between;
@@ -336,5 +378,14 @@ h3 {
 .submit-btn:disabled {
     background: #ccc;
     cursor: not-allowed;
+}
+
+.fields-section {
+    margin-top: 1.5rem;
+}
+
+.fields-section h4 {
+    margin-bottom: 1rem;
+    color: #666;
 }
 </style>
