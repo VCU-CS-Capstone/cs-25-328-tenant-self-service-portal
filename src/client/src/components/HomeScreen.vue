@@ -1,8 +1,6 @@
 <template>
-  <div>
+  <div class="page">
     <div class="space"></div>
-
-    <!-- Main Content -->
     <div class="main-container">
       <div class="boxes">
         <!-- Use Cases Box -->
@@ -48,7 +46,7 @@
         </div>
 
         <!-- Call-to-Action Section -->
-        <div class="cta-box">
+        <div class="box cta">
           <h2>What would you like to do today?</h2>
           <p>
             We'll guide you through filling in this info. You can always save,
@@ -70,7 +68,6 @@
 import { useRouter } from 'vue-router'
 
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
   name: 'HomeScreen',
   setup() {
     const router = useRouter();
@@ -129,130 +126,155 @@ export default {
 </script>
 
 <style scoped>
+.page {
+  min-height: 100vh;
+}
+
 .space {
-  background-color: #ffffff;
-  overflow: hidden;
+  height: 12px;
   border-bottom: 1px solid black;
-  min-height: 12px;
 }
 
 .main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0px;
   background-color: #017291;
-  color: white;
-  position: absolute;
-  top: 106px;
-  bottom: 0px;
-  width: 100%;
+  min-height: calc(100vh - 106px);
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
 }
 
 .boxes {
   display: flex;
-  gap: 100px;
-  justify-content: center;
-  align-items: flex-start;
+  gap: 2rem;
+  width: 75%; /* Changed from max-width */
+  justify-content: space-between; /* Changed from center */
+  align-items: stretch;
 }
 
 .box {
-  background-color: white;
-  color: black;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 275px;
-  height: 300px;
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  flex: 1; /* Changed from fixed width */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 1rem;
+}
+
+
+.box.cta {
+  background: transparent;
+  color: white;
 }
 
 .scrollable {
-  flex-grow: 1;
+  flex: 1;
   overflow-y: auto;
-  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 10px;
-  background-color: #ffffff;
-  font-weight: bold;
-  font-size: 13px;
+  padding: 1rem;
+  background: white;
 }
 
 .box ul {
   list-style: none;
   padding: 0;
   margin: 0;
-
 }
 
 .box li {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-weight: bold;
 }
-
-.box h3 {
-  text-align: left;
-
-}
-
 
 .actions-grid {
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
 .actions-grid button {
-  padding: 5px 10px;
-  font-size: 14px;
-  background-color: white;
+  flex: 1;
+  padding: 0.5rem;
+  background: white;
   color: #017291;
+  border: none;
+  border-radius: 5px;
   font-weight: bold;
-  border: white;
   cursor: pointer;
 }
 
-.actions-grid button:hover {
-  background-color: #a9dcea;
-}
-
-/* Call-to-Action Buttons 2x2 Grid */
 .cta-buttons-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
 }
 
 .cta-buttons-grid button {
+  padding: 0.5rem;
+  background: #017291;
   color: white;
-  background-color: #017291;
-  padding: 10px;
-  font-size: 14px;
   border: 1px solid white;
-  /* White border */
   border-radius: 3px;
   cursor: pointer;
 }
 
+.actions-grid button:hover,
 .cta-buttons-grid button:hover {
-  background-color: #f5f6f7;
-  /* Slightly darker on hover */
+  background: #f5f6f7;
   color: #017291;
 }
 
-.cta-box {
-  color: rgb(255, 255, 255);
-  padding: 20px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+@media (max-width: 1024px) {
+  .main-container {
+    padding: 1.5rem;
+  }
+  
+  .boxes {
+    gap: 1.5rem;
+  }
 }
 
-.cta-box h2 {
-  margin-bottom: 10px;
+@media (max-width: 768px) {
+  .main-container {
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .boxes {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .box {
+    width: auto;
+    max-width: none;
+  }
+
+  .scrollable {
+    max-height: 200px;
+  }
+
+  .cta-buttons-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-container {
+    padding: 0.5rem;
+  }
+
+  .actions-grid {
+    flex-direction: column;
+  }
+
+  .box {
+    padding: 1rem;
+  }
 }
 </style>
