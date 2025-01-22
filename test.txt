@@ -1,1 +1,2 @@
 test2 help
+// eslint-disable-next-line vue/multi-word-component-names
