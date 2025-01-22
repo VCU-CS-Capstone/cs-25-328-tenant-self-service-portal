@@ -148,7 +148,7 @@ export default {
     }
 
     .title {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
 
     .menu-toggle {
@@ -182,7 +182,7 @@ export default {
 
 @media (max-width: 480px) {
     .title {
-        font-size: 1.25rem;
+        font-size: 2rem;
     }
 }
 </style>

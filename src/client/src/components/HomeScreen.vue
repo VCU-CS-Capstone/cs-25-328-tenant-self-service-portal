@@ -144,21 +144,52 @@ export default {
 .boxes {
   display: flex;
   gap: 2rem;
-  width: 75%; /* Changed from max-width */
+  width: 65%; /* Changed from max-width */
   justify-content: space-between; /* Changed from center */
   align-items: stretch;
 }
 
 .box {
   background: white;
-  border-radius: 15px;
-  padding: 1.5rem;
-  flex: 1; /* Changed from fixed width */
+  border-radius: 10px;
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem; 
 }
 
+.box li button {
+  background: transparent;
+  border: none;
+  color: #017291;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.box li button:hover {
+  color: #033450;
+}
+
+.box li span {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.box h3 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0 0.5rem 0;
+  color: #033450; 
+  font-weight: bold;
+}
 
 .box.cta {
   background: transparent;
@@ -168,9 +199,10 @@ export default {
 .scrollable {
   flex: 1;
   overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 1rem;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   background: white;
 }
 
@@ -184,8 +216,10 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+  font-size: 0.9rem;
+  color: #000000;
 }
 
 .actions-grid {
@@ -196,12 +230,14 @@ export default {
 .actions-grid button {
   flex: 1;
   padding: 0.5rem;
-  background: white;
+  background: transparent; /* Changed from white */
   color: #017291;
   border: none;
   border-radius: 5px;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
+  transition: color 0.2s ease; /* Smooth color transition */
 }
 
 .cta-buttons-grid {
@@ -211,15 +247,19 @@ export default {
 }
 
 .cta-buttons-grid button {
-  padding: 0.5rem;
+  padding: 0.75rem;
   background: #017291;
   color: white;
   border: 1px solid white;
-  border-radius: 3px;
+  border-radius: 25px;
   cursor: pointer;
 }
 
-.actions-grid button:hover,
+.actions-grid button:hover {
+  color: #033450; /* Match header hover color */
+  background: transparent; /* Keep background transparent */
+}
+
 .cta-buttons-grid button:hover {
   background: #f5f6f7;
   color: #017291;
