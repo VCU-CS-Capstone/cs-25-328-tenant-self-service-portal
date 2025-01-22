@@ -1,2 +1,14 @@
 test2 help
 // eslint-disable-next-line vue/multi-word-component-names
+
+<script>
+export default {
+    // eslint-disable-next-line vue/multi-word-component-names
+    name: 'Header',
+    data() {
+        return {
+            isMenuOpen: false
+        }
+    }
+}
+</script>

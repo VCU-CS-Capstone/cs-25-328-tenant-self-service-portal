@@ -116,7 +116,7 @@ export default {
       this.router.push('/datasets');
     },
     viewAllDatasets() {
-      console.log('View all datasets');
+      this.router.push('/datasets');
     },
     favoriteDataset(id) {
       console.log(`Delete dataset ${id}`);
@@ -130,20 +130,16 @@ export default {
   min-height: 100vh;
 }
 
-.space {
-  height: 12px;
-  border-bottom: 1px solid black;
-}
-
 .main-container {
   background-color: #017291;
-  min-height: calc(100vh - 106px);
+  min-height: calc(100vh - 80px); /* Changed from 106px to match header height */
   padding: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: auto;
 }
+
 
 .boxes {
   display: flex;
