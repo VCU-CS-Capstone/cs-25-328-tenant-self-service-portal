@@ -40,6 +40,21 @@ export default {
     const router = useRouter();
     return { router };
   },
+  // Utilize this instead of data() to fetch datasets from DB
+  /* async fetchDatasets() {
+      this.loading = true;
+      try {
+        const response = await fetch('/api/datasets');
+        const data = await response.json();
+        this.datasets = data;
+      } catch (err) {
+        this.error = 'Error loading datasets';
+        console.error(err);
+      } finally {
+        this.loading = false;
+      }
+    }, */
+
   data() {
     return {
       activeFilter: 'all',
