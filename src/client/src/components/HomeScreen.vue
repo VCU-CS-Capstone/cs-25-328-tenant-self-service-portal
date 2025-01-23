@@ -247,7 +247,7 @@ export default {
 }
 
 .cta-buttons-grid button {
-  padding: 0.75rem;
+  padding: 0.65rem;
   background: #017291;
   color: white;
   border: 1px solid white;
