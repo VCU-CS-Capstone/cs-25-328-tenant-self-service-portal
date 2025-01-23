@@ -95,13 +95,13 @@ export default {
   },
   methods: {
     addNewUseCase() {
-      console.log('Add use case')
+      this.router.push('/usecases/register/');
     },
     reviewUseCases() {
-      console.log('Review use cases');
+      this.router.push('/usecases');
     },
     viewAllUseCases() {
-      console.log('View all use cases');
+      this.router.push('/usecases');
     },
     edit(id) {
       console.log(`Edit item ${id}`);

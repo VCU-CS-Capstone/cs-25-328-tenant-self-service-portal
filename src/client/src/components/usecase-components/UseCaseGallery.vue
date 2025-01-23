@@ -28,9 +28,14 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
 
 export default {
   name: "UseCaseRegistration",
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
   data() {
     return {
       usecases: [
@@ -75,8 +80,8 @@ export default {
   },
   methods: {
     addNewUseCase() {
-      console.log("Add New Use Case button clicked");
-    },
+      this.router.push('/usecases/register');
+    }
   },
 };
 </script>
