@@ -1,4 +1,3 @@
-// dataset.controller.js
 const mockData = require('../utils/mockData');
 
 const getAllDatasets = async (req, res) => {
@@ -45,7 +44,7 @@ const updateDataset = async (req, res) => {
        mockData.datasets[index] = {
            ...mockData.datasets[index],
            ...req.body,
-           datasetId: req.params.datasetId // Ensure ID doesn't change
+           datasetId: req.params.datasetId 
        };
 
        res.json(mockData.datasets[index]);
@@ -85,37 +84,47 @@ const submitDataset = async (req, res) => {
 };
 
 const approveDataset = async (req, res) => {
-   try {
-       const dataset = mockData.datasets.find(d => d.datasetId === req.params.datasetId);
-       if (!dataset) {
-           return res.status(404).json({ message: "Dataset not found" });
-       }
+    try {
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: "Only admins can approve datasets" });
+        }
 
-       dataset.status = 'APPROVED';
-       dataset.approvedAt = new Date().toISOString();
-       dataset.comments = req.body.comments;
-       
-       res.json(dataset);
-   } catch (error) {
-       res.status(400).json({ message: "Error approving dataset" });
-   }
+        const dataset = mockData.datasets.find(d => d.datasetId === req.params.datasetId);
+        if (!dataset) {
+            return res.status(404).json({ message: "Dataset not found" });
+        }
+
+        dataset.status = 'APPROVED';
+        dataset.approvedAt = new Date().toISOString();
+        dataset.approvedBy = req.user.username;
+        dataset.comments = req.body.comments;
+        
+        res.json(dataset);
+    } catch (error) {
+        res.status(400).json({ message: "Error approving dataset" });
+    }
 };
 
 const rejectDataset = async (req, res) => {
-   try {
-       const dataset = mockData.datasets.find(d => d.datasetId === req.params.datasetId);
-       if (!dataset) {
-           return res.status(404).json({ message: "Dataset not found" });
-       }
+    try {
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: "Only admins can reject datasets" });
+        }
 
-       dataset.status = 'REJECTED';
-       dataset.rejectedAt = new Date().toISOString();
-       dataset.comments = req.body.comments;
-       
-       res.json(dataset);
-   } catch (error) {
-       res.status(400).json({ message: "Error rejecting dataset" });
-   }
+        const dataset = mockData.datasets.find(d => d.datasetId === req.params.datasetId);
+        if (!dataset) {
+            return res.status(404).json({ message: "Dataset not found" });
+        }
+
+        dataset.status = 'REJECTED';
+        dataset.rejectedAt = new Date().toISOString();
+        dataset.rejectedBy = req.user.username;
+        dataset.comments = req.body.comments;
+        
+        res.json(dataset);
+    } catch (error) {
+        res.status(400).json({ message: "Error rejecting dataset" });
+    }
 };
 
 const getDatasetComments = async (req, res) => {
@@ -142,7 +151,8 @@ const addDatasetComment = async (req, res) => {
            id: Date.now().toString(),
            text: req.body.text,
            createdAt: new Date().toISOString(),
-           createdBy: req.body.userId // Assuming user info is in request
+           createdBy: req.body.userId, 
+           isAdminComment: req.user.role === 'admin' 
        };
 
        if (!dataset.comments) {

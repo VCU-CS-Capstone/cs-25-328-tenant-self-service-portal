@@ -13,21 +13,25 @@ const {
     getDatasetComments,
     addDatasetComment
 } = require('../controllers/dataset.controller');
+const { verifyToken, checkRole } = require('../middleware/auth');
 
-// Dataset Core Operations
+// Public routes
 router.get('/', getAllDatasets);
 router.get('/:datasetId', getDatasetById);
+
+// Authenticated user routes
+router.use(verifyToken);
 router.post('/', createDataset);
 router.put('/:datasetId', updateDataset);
 router.delete('/:datasetId', deleteDataset);
-
-// Dataset Workflow
 router.post('/:datasetId/submit', submitDataset);
-router.post('/:datasetId/approve', approveDataset);
-router.post('/:datasetId/reject', rejectDataset);
 
-// Dataset Comments
+// Dataset Comments (authenticated users)
 router.get('/:datasetId/comments', getDatasetComments);
 router.post('/:datasetId/comments', addDatasetComment);
+
+// Admin-only routes
+router.post('/:datasetId/approve', checkRole(['admin']), approveDataset);
+router.post('/:datasetId/reject', checkRole(['admin']), rejectDataset);
 
 module.exports = router;
