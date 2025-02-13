@@ -1,11 +1,6 @@
 <template>
-  <div>
-    <!-- Header Component -->
-    <Header />
-
+  <div class="page">
     <div class="space"></div>
-
-    <!-- Main Content -->
     <div class="main-container">
       <div class="boxes">
         <!-- Use Cases Box -->
@@ -51,7 +46,7 @@
         </div>
 
         <!-- Call-to-Action Section -->
-        <div class="cta-box">
+        <div class="box cta">
           <h2>What would you like to do today?</h2>
           <p>
             We'll guide you through filling in this info. You can always save,
@@ -70,13 +65,13 @@
 </template>
 
 <script>
-import Header from './Header.vue';
+import { useRouter } from 'vue-router'
 
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
   name: 'HomeScreen',
-  components: {
-    Header,
+  setup() {
+    const router = useRouter();
+    return { router };
   },
   data() {
     return {
@@ -100,13 +95,13 @@ export default {
   },
   methods: {
     addNewUseCase() {
-      console.log('Add new use case');
+      this.router.push('/usecases/register/');
     },
     reviewUseCases() {
-      console.log('Review use cases');
+      this.router.push('/usecases');
     },
     viewAllUseCases() {
-      console.log('View all use cases');
+      this.router.push('/usecases');
     },
     edit(id) {
       console.log(`Edit item ${id}`);
@@ -115,13 +110,13 @@ export default {
       console.log(`Delete use case ${id}`);
     },
     addNewDataset() {
-      console.log('Add new dataset');
+      this.router.push('/datasets/register/');
     },
     reviewDatasets() {
-      console.log('Review datasets');
+      this.router.push('/datasets');
     },
     viewAllDatasets() {
-      console.log('View all datasets');
+      this.router.push('/datasets');
     },
     favoriteDataset(id) {
       console.log(`Delete dataset ${id}`);
@@ -131,128 +126,191 @@ export default {
 </script>
 
 <style scoped>
-
-.space {
-  background-color: #ffffff;
-  overflow: hidden;
-  border-bottom: 1px solid black;
-  min-height: 12px;
+.page {
+  min-height: 100vh;
 }
 
 .main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0px;
   background-color: #017291;
-  color: white;
-  position: absolute;
-  top: 106px;
-  bottom: 0px;
-  width: 100%;
+  min-height: calc(100vh - 80px); /* Changed from 106px to match header height */
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
 }
+
 
 .boxes {
   display: flex;
-  gap: 100px;
-  justify-content: center;
-  align-items: flex-start;
+  gap: 2rem;
+  width: 65%; /* Changed from max-width */
+  justify-content: space-between; /* Changed from center */
+  align-items: stretch;
 }
 
 .box {
-  background-color: white;
-  color: black;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 275px;
-  height: 300px;
+  background: white;
+  border-radius: 10px;
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 0.75rem; 
+}
+
+.box li button {
+  background: transparent;
+  border: none;
+  color: #017291;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.box li button:hover {
+  color: #033450;
+}
+
+.box li span {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.box h3 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0 0.5rem 0;
+  color: #033450; 
+  font-weight: bold;
+}
+
+.box.cta {
+  background: transparent;
+  color: white;
 }
 
 .scrollable {
-  flex-grow: 1;
+  flex: 1;
   overflow-y: auto;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  background-color: #ffffff;
-  font-weight: bold;
-  font-size: 13px; 
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background: white;
 }
 
 .box ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  
 }
 
 .box li {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+  font-size: 0.9rem;
+  color: #000000;
 }
-
-.box h3 {
-  text-align: left;
-  
-}
-
 
 .actions-grid {
   display: flex;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
 .actions-grid button {
-  padding: 5px 10px;
-  font-size: 14px;
-  background-color: white;
-  color:#017291;
-  font-weight: bold;
-  border: white;
+  flex: 1;
+  padding: 0.5rem;
+  background: transparent; /* Changed from white */
+  color: #017291;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
+  transition: color 0.2s ease; /* Smooth color transition */
 }
 
-.actions-grid button:hover  {
-  background-color: #a9dcea;
-}
-/* Call-to-Action Buttons 2x2 Grid */
 .cta-buttons-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
 }
 
 .cta-buttons-grid button {
+  padding: 0.65rem;
+  background: #017291;
   color: white;
-  background-color: #017291;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid white; /* White border */
-  border-radius: 3px;
+  border: 1px solid white;
+  border-radius: 25px;
   cursor: pointer;
 }
 
+.actions-grid button:hover {
+  color: #033450; /* Match header hover color */
+  background: transparent; /* Keep background transparent */
+}
+
 .cta-buttons-grid button:hover {
-  background-color: #f5f6f7; /* Slightly darker on hover */
-  color:#017291;
+  background: #f5f6f7;
+  color: #017291;
 }
 
-.cta-box {
-  color: rgb(255, 255, 255);
-  padding: 20px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+@media (max-width: 1024px) {
+  .main-container {
+    padding: 1.5rem;
+  }
+  
+  .boxes {
+    gap: 1.5rem;
+  }
 }
 
-.cta-box h2 {
-  margin-bottom: 10px;
+@media (max-width: 768px) {
+  .main-container {
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .boxes {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .box {
+    width: auto;
+    max-width: none;
+  }
+
+  .scrollable {
+    max-height: 200px;
+  }
+
+  .cta-buttons-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-container {
+    padding: 0.5rem;
+  }
+
+  .actions-grid {
+    flex-direction: column;
+  }
+
+  .box {
+    padding: 1rem;
+  }
 }
 </style>

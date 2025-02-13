@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header />
     <!-- Header Section for the Use Case Registration -->
     <div class="header">
       <nav>
@@ -14,11 +13,7 @@
     <!-- Main Content Section -->
     <div class="main-container">
       <div class="usecase-grid">
-        <div
-          v-for="usecase in usecases"
-          :key="usecase.id"
-          class="usecase-card"
-        >
+        <div v-for="usecase in usecases" :key="usecase.id" class="usecase-card">
           <div class="usecase-actions">
             <h3 class="usecase-name">{{ usecase.name }}</h3>
             <input type="radio" name="select-usecase" :id="usecase.id" />
@@ -33,12 +28,13 @@
 </template>
 
 <script>
-import Header from "./Header.vue";
+import { useRouter } from 'vue-router';
 
 export default {
   name: "UseCaseRegistration",
-  components: {
-    Header,
+  setup() {
+    const router = useRouter();
+    return { router };
   },
   data() {
     return {
@@ -84,8 +80,8 @@ export default {
   },
   methods: {
     addNewUseCase() {
-      console.log("Add New Use Case button clicked");
-    },
+      this.router.push('/usecases/register');
+    }
   },
 };
 </script>
@@ -124,8 +120,10 @@ nav a:hover {
 
 .usecase-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 items per row */
-  gap: 20px; /* Space between cards */
+  grid-template-columns: repeat(4, 1fr);
+  /* 4 items per row */
+  gap: 20px;
+  /* Space between cards */
 }
 
 .usecase-card {
@@ -134,12 +132,14 @@ nav a:hover {
   border-top: 3.5px solid #017291;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative; /* To position the radio button */
+  position: relative;
+  /* To position the radio button */
 }
 
 .usecase-actions {
   display: flex;
-  justify-content: space-between; /* Name on the left, button on the right */
+  justify-content: space-between;
+  /* Name on the left, button on the right */
   align-items: center;
 }
 
