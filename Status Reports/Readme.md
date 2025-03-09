@@ -26,14 +26,14 @@ Weekly status reports go into this folder
 
 | Document | Tasks | Accomplishments| Issues |
 |---|---|---|---|
-| Week 1 Status Report </br> Week starting 1/12 | | | |
-| Week 2 Status Report </br> Week starting 1/19 | | | |
-| Week 3 Status Report </br> Week starting 1/26 | | | |
-| Week 4 Status Report </br> Week starting 2/2 | | | |
-| Week 5 Status Report </br> Week starting 2/9 | | | |
-| Week 6 Status Report </br> Week starting 2/16 | | | |
-| Week 7 Status Report </br> Week starting 2/23 | | | |
-| Week 8 Status Report </br> Week starting 3/2 | | | |
+| Week 1 Status Report </br> Week starting 1/12 | Working on demonstration for Capital One; Reestablishing meeting times/availability | Reestablished meeting times | |
+| Week 2 Status Report </br> Week starting 1/19 | Complete working demo for Capital One and presentation slides | Completed demo Sunday night; Added barebones use case functionality to app | |
+| Week 3 Status Report </br> Week starting 1/26 | Capital One presentation week; complete 2nd semester team contract with updated availabilities | Presented demo to Capital One members; gained feedback for application | |
+| Week 4 Status Report </br> Week starting 2/2 | Emphasis on establishing the whole self-service cycle and admin flow; Integrating database utilizing Render | Created and setup Render database  |
+| Week 5 Status Report </br> Week starting 2/9 | Work on database and functionality before UI; Create schema for database | | |
+| Week 6 Status Report </br> Week starting 2/16 | | Created schema for database; Connections to Render database established | |
+| Week 7 Status Report </br> Week starting 2/23 | Finding new database option due to issue | Using AWS database as option | Render database required payment option even though it was advertised as free for base plan, need to reconsider options |
+| Week 8 Status Report </br> Week starting 3/2 | | Setup working database! | |
 | Week 9 Status Report </br> Week starting 3/9 | | | |
 | Week 10 Status Report </br> Week starting 3/16 | | | |
 | Week 11 Status Report </br> Week starting 3/23 | | | |
