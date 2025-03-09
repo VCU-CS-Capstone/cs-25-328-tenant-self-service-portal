@@ -18,27 +18,27 @@ Weekly status reports go into this folder
 | Week 11 Status Report </br> Week starting 11/3 | Work on file design poster; continue development | Completed majority of design poster | Make some adjustments to design poster as requested by sponsor & advisor |
 | Week 12 Status Report </br> Week starting 11/10 | Continue working on demo | Made adjustments and finalized design poster; Discussed tech stack configuration with project specifications | |
 | Week 13 Status Report </br> Week starting 11/17 | Complete UI for dataset creation; Get .js and .json formatting to work with backend; Implementing more endpoints | Lots of frontend development | Wrapping up things for other classes |
-| Week 14 Status Report | | | |
-| Week 15 Status Report | | | |
-| Week 16 Status Report | | | |
+| Week 14 Status Report </br> Week starting 11/24 | | | |
+| Week 15 Status Report </br> Week starting 12/1 | | | |
+| Week 16 Status Report </br> Week starting 12/8 | | | |
 
 ## Spring Semester
 
 | Document | Tasks | Accomplishments| Issues |
 |---|---|---|---|
-| Week 1 Status Report | | | |
-| Week 2 Status Report | | | |
-| Week 3 Status Report | | | |
-| Week 4 Status Report | | | |
-| Week 5 Status Report | | | |
-| Week 6 Status Report | | | |
-| Week 7 Status Report | | | |
-| Week 8 Status Report | | | |
-| Week 9 Status Report | | | |
-| Week 10 Status Report | | | |
-| Week 11 Status Report | | | |
-| Week 12 Status Report | | | |
-| Week 13 Status Report | | | |
-| Week 14 Status Report | | | |
-| Week 15 Status Report | | | |
-| Week 16 Status Report | | | |
+| Week 1 Status Report </br> Week starting 1/12 | | | |
+| Week 2 Status Report </br> Week starting 1/19 | | | |
+| Week 3 Status Report </br> Week starting 1/26 | | | |
+| Week 4 Status Report </br> Week starting 2/2 | | | |
+| Week 5 Status Report </br> Week starting 2/9 | | | |
+| Week 6 Status Report </br> Week starting 2/16 | | | |
+| Week 7 Status Report </br> Week starting 2/23 | | | |
+| Week 8 Status Report </br> Week starting 3/2 | | | |
+| Week 9 Status Report </br> Week starting 3/9 | | | |
+| Week 10 Status Report </br> Week starting 3/16 | | | |
+| Week 11 Status Report </br> Week starting 3/23 | | | |
+| Week 12 Status Report </br> Week starting 3/30 | | | |
+| Week 13 Status Report </br> Week starting 4/6 | | | |
+| Week 14 Status Report </br> Week starting 4/13 | | | |
+| Week 15 Status Report </br> Week starting 4/20 | | | |
+| Week 16 Status Report </br> Week starting 4/27 | | | |
