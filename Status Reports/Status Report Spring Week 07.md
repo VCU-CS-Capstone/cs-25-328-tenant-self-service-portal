@@ -17,9 +17,8 @@ Faculty Advisor:
 Preetam Ghosh - CS - Faculty Advisor
 
 ## 1) Accomplishments this week ##
-- Capital One presentation week
-- Presented demo to Capital One members
-- Gained feedback for application	
+- Using AWS database as option, setup environment (had some trouble with collaborative platform) 
 ## 2) Milestones to be completed next week ##
-- complete 2nd semester team contract with updated availabilities
+- Finding new database option due to issue
 ## 3) Issues, problems or concerns ##
+- Render database required payment option even though it was advertised as free for base plan, need to reconsider options
