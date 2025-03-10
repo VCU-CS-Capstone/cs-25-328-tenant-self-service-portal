@@ -17,9 +17,9 @@ Faculty Advisor:
 Preetam Ghosh - CS - Faculty Advisor
 
 ## 1) Accomplishments this week ##
+- Reestablished meeting times
+## 2) Milestones to be completed next week ##
 - Working on demonstration for Capital One
 - Reestablishing meeting times/availability
-## 2) Milestones to be completed next week ##
-- Reestablished meeting times	
 ## 3) Issues, problems or concerns ##
 - Concerns about time spent per week productively (discussed and resolved) 
