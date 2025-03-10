@@ -17,8 +17,8 @@ Faculty Advisor:
 Preetam Ghosh - CS - Faculty Advisor
 
 ## 1) Accomplishments this week ##
-- Complete working demo for Capital One and presentation slides	
-## 2) Milestones to be completed next week ##
 - Completed demo Sunday night
 - Added barebones use case functionality to app	
+## 2) Milestones to be completed next week ##
+- Complete working demo for Capital One and presentation slides	
 ## 3) Issues, problems or concerns ##
