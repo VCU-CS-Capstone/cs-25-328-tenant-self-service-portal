@@ -28,7 +28,7 @@ Weekly status reports go into this folder
 |---|---|---|---|
 | Week 1 Status Report </br> Week starting 1/12 | Working on demonstration for Capital One; Reestablishing meeting times/availability | Reestablished meeting times | |
 | Week 2 Status Report </br> Week starting 1/19 | Complete working demo for Capital One and presentation slides | Completed demo Sunday night; Added barebones use case functionality to app | |
-| Week 3 Status Report </br> Week starting 1/26 | Capital One presentation week; complete 2nd semester team contract with updated availabilities | Presented demo to Capital One members; gained feedback for application | |
+| Week 3 Status Report </br> Week starting 1/26 | Capital One presentation week; complete 2nd semester team contract with updated availabilities | Presented demo to Capital One members; gained feedback for application | Managing the created items in storage (local/remote database options?) |
 | Week 4 Status Report </br> Week starting 2/2 | Emphasis on establishing the whole self-service cycle and admin flow; Integrating database utilizing Render | Created and setup Render database  |
 | Week 5 Status Report </br> Week starting 2/9 | Work on database and functionality before UI; Create schema for database | Created task breakdown for remainder of project and discussed with mentor | |
 | Week 6 Status Report </br> Week starting 2/16 | | Created schema for database; Connections to Render database established | |
