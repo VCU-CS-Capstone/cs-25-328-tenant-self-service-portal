@@ -23,3 +23,4 @@ Preetam Ghosh - CS - Faculty Advisor
 ## 2) Milestones to be completed next week ##
 - complete 2nd semester team contract with updated availabilities
 ## 3) Issues, problems or concerns ##
+- Managing the created items in storage (local/remote database options?)
