@@ -19,5 +19,7 @@ Preetam Ghosh - CS - Faculty Advisor
 ## 1) Accomplishments this week ##
 - Created schema for database; Connections to Render database established
 ## 2) Milestones to be completed next week ##
-
+- Continue working on endpoints to communicate with database
+- Testing database with endpoints
 ## 3) Issues, problems or concerns ##
+- Establishing proper connection to DB
