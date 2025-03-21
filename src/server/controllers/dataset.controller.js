@@ -2,77 +2,56 @@ const db = require('../database/database');
 
 const getAllDatasets = async (req, res) => {
     try {
-        const { page = 1, limit = 10, status, lineOfBusiness, search } = req.query;
-        const offset = (page - 1) * limit;
-        
-        let query = 'SELECT * FROM datasets';
-        let whereConditions = [];
-        let params = [];
-        let paramCount = 1;
-        
-        if (status) {
-            whereConditions.push(`status = $${paramCount++}`);
-            params.push(status);
-        }
-        
-        if (lineOfBusiness) {
-            whereConditions.push(`line_of_business = $${paramCount++}`);
-            params.push(lineOfBusiness);
-        }
-        
-        if (search) {
-            whereConditions.push(`(dataset_name ILIKE $${paramCount} OR description ILIKE $${paramCount})`);
-            params.push(`%${search}%`);
-            paramCount++;
-        }
-        
-        if (whereConditions.length > 0) {
-            query += ` WHERE ${whereConditions.join(' AND ')}`;
-        }
-        
-        query += ` ORDER BY dataset_name LIMIT $${paramCount++} OFFSET $${paramCount}`;
-        params.push(limit, offset);
-        
-        const result = await db.query(query, params);
-
-        const countQuery = `
-            SELECT COUNT(*) FROM datasets
-            ${whereConditions.length > 0 ? `WHERE ${whereConditions.join(' AND ')}` : ''}
-        `;
-        
-        const countResult = await db.query(countQuery, params.slice(0, paramCount - 2));
-        const totalCount = parseInt(countResult.rows[0].count);
-        
-        res.json({
-            data: result.rows,
-            pagination: {
-                total: totalCount,
-                page: parseInt(page),
-                limit: parseInt(limit),
-                totalPages: Math.ceil(totalCount / limit)
-            }
-        });
+      const { page = 1, limit = 10, status, lineOfBusiness, search } = req.query;
+      const offset = (page - 1) * limit;
+      
+      let query = 'SELECT * FROM datasets';
+      let whereConditions = [];
+      let params = [];
+      let paramCount = 1;
+      
+      if (status) {
+        whereConditions.push(`status = $${paramCount++}`);
+        params.push(status);
+      } 
+      
+      if (lineOfBusiness) {
+        whereConditions.push(`line_of_business = $${paramCount++}`);
+        params.push(lineOfBusiness);
+      } 
+      
+      if (search) {
+        whereConditions.push(`(dataset_name ILIKE $${paramCount} OR description ILIKE $${paramCount})`);
+        params.push(`%${search}%`);
+        paramCount++;
+      } 
+      
+      if (whereConditions.length > 0) {
+        query += ` WHERE ${whereConditions.join(' AND ')}`;
+      } 
+      
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error fetching datasets" });
+      console.error(error);
+      res.status(500).json({ message: "Error fetching datasets" });
     }
-};
-
-const getDatasetById = async (req, res) => {
+  }; 
+  
+  
+  const getDatasetById = async (req, res) => {
     try {
-        const { datasetId } = req.params;
-        const result = await db.query('SELECT * FROM datasets WHERE dataset_id = $1', [datasetId]);
-        
-        if (result.rows.length === 0) {
-            return res.status(404).json({ message: "Dataset not found" });
-        }
-        
-        res.json(result.rows[0]);
+      const { datasetId } = req.params;
+      const result = await db.query('SELECT * FROM datasets WHERE dataset_id = $1', [datasetId]);
+      
+      if (result.rows.length === 0) {
+        return res.status(404).json({ message: "Dataset not found" });
+      }
+      
+      res.json(result.rows[0]);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error fetching dataset" });
+      console.error(error);
+      res.status(500).json({ message: "Error fetching dataset" });
     }
-};
+  };
 
 const createDataset = async (req, res) => {
     try {

@@ -6,71 +6,66 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '24h';
 
-/**
- * Register a new user
- * @param {Object} req - Request object
- * @param {Object} res - Response object
- */
 const register = async (req, res) => {
-    try {
-        const { first_name, last_name, email, password, is_admin } = req.body;
+  try {
+    const { first_name, last_name, email, password, is_admin } = req.body;
 
-        // Validate input
-        if (!first_name || !last_name || !email || !password) {
-            return res.status(400).json({ message: 'All fields are required' });
-        }
-
-        // Check if user already exists
-        const [existingUsers] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
-        if (existingUsers.length > 0) {
-            return res.status(409).json({ message: 'User with this email already exists' });
-        }
-
-        // Hash password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // Create new user
-        const query = `
-            INSERT INTO users (first_name, last_name, email, password, is_admin)
-            VALUES (?, ?, ?, ?, ?)
-        `;
-        
-        // Default to non-admin if not specified
-        const adminValue = is_admin === true ? 1 : 0;
-        
-        const [result] = await db.query(query, [
-            first_name,
-            last_name,
-            email,
-            hashedPassword,
-            adminValue
-        ]);
-
-        // Create token
-        const token = jwt.sign(
-            { 
-                id: result.insertId,
-                email,
-                is_admin: !!adminValue
-            },
-            JWT_SECRET,
-            { expiresIn: JWT_EXPIRES_IN }
-        );
-
-        // Return user info (without password)
-        res.status(201).json({
-            id: result.insertId,
-            first_name,
-            last_name,
-            email,
-            is_admin: !!adminValue,
-            token
-        });
-    } catch (error) {
-        console.error('Registration error:', error);
-        res.status(500).json({ message: 'Error registering user' });
+    // Validate input
+    if (!first_name || !last_name || !email || !password) {
+      return res.status(400).json({ message: 'All fields are required' });
     }
+
+    // Check if user already exists
+    const [existingUsers] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
+    if (existingUsers.length > 0) {
+      return res.status(409).json({ message: 'User with this email already exists' });
+    }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create new user
+    const query = `
+      INSERT INTO users (first_name, last_name, email, password, is_admin)
+      VALUES (?, ?, ?, ?, ?)
+    `;
+    
+    // Default to non-admin if not specified
+    const adminValue = is_admin === true ? 1 : 0;
+    
+    const [result] = await db.query(query, [
+      first_name,
+      last_name,
+      email,
+      hashedPassword,
+      adminValue
+    ]);
+
+    // Create token
+    const token = jwt.sign(
+      { 
+        id: result.insertId,
+        email,
+        is_admin: !!adminValue
+      },
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
+    );
+
+    // Return user info (without password)
+    res.status(201).json({
+      id: result.insertId,
+      first_name,
+      last_name,
+      email,
+      is_admin: !!adminValue,
+      token
+    });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ message: 'Error registering user' });
+  }
 };
 
 /**
