@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import axios from 'axios'
+import datasetService from '../../services/datasetService'
 
 export default {
   name: 'DatasetRegistrationWrapper',
@@ -48,6 +48,8 @@ export default {
     const route = useRoute()
     
     const totalSteps = 5
+    const statusMessage = ref('')
+    const statusType = ref('info')
     const formData = ref({
       datasetName: '',
       description: '',
@@ -61,7 +63,8 @@ export default {
       datasetConsumers: [],
       dataSources: [], 
       managedFieldContracts: [],
-      clientFieldContracts: []
+      clientFieldContracts: [],
+      dataset_id: null
     })
 
     const currentStep = computed(() => {
@@ -74,23 +77,40 @@ export default {
       return ((currentStep.value - 1) / (totalSteps - 1)) * 100
     })
 
-    // Your existing methods remain the same
+    // Show status message
+    const showStatus = (message, type = 'info', duration = 3000) => {
+      statusMessage.value = message
+      statusType.value = type
+      setTimeout(() => {
+        statusMessage.value = ''
+      }, duration)
+    }
+
+    // Save dataset as draft
     const saveDraft = async () => {
       try {
-        await axios.post('http://localhost:3000/api/datasets', {
-          ...formData.value,
-          status: 'DRAFT'
-        })
-        alert('Draft saved successfully!')
+        // Store in localStorage as backup
+        localStorage.setItem('datasetFormData', JSON.stringify(formData.value))
+        
+        // Save to database via API
+        const response = await datasetService.saveDatasetDraft(formData.value)
+        
+        // Update form with returned dataset ID if it's new
+        if (response && response.dataset_id && !formData.value.dataset_id) {
+          formData.value.dataset_id = response.dataset_id
+        }
+        
+        showStatus('Draft saved successfully!', 'success')
       } catch (error) {
         console.error('Error saving draft:', error)
-        alert('Error saving draft. Please try again.')
+        showStatus(`Error saving draft: ${error.message || 'Unknown error'}`, 'error')
       }
     }
 
     const handleContinue = () => {
       const nextStep = currentStep.value + 1
       if (nextStep <= totalSteps) {
+        // Save current progress before proceeding
         localStorage.setItem('datasetFormData', JSON.stringify(formData.value))
         router.push(`/datasets/register/steps/${nextStep}`)
       }
@@ -106,16 +126,20 @@ export default {
     }
 
     // Load saved form data if it exists
-    const savedData = localStorage.getItem('datasetFormData')
-    if (savedData) {
-      formData.value = JSON.parse(savedData)
-    }
+    onMounted(() => {
+      const savedData = localStorage.getItem('datasetFormData')
+      if (savedData) {
+        formData.value = JSON.parse(savedData)
+      }
+    })
 
     return {
       totalSteps,
       currentStep,
       formData,
       progressPercentage,
+      statusMessage,
+      statusType,
       saveDraft,
       handleContinue,
       handleBack

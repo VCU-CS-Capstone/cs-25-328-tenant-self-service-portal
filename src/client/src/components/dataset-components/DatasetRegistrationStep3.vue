@@ -26,6 +26,12 @@
                                 </div>
                             </label>
                         </div>
+                        <div v-if="isLoadingProducers" class="loading-indicator">
+                            Loading producers...
+                        </div>
+                        <div v-if="!isLoadingProducers && availableProducers.length === 0" class="empty-message">
+                            No producers available
+                        </div>
                     </div>
                 </div>
 
@@ -49,6 +55,12 @@
                                     <p class="channel-description">{{ consumer.consumerDescription }}</p>
                                 </div>
                             </label>
+                        </div>
+                        <div v-if="isLoadingConsumers" class="loading-indicator">
+                            Loading consumers...
+                        </div>
+                        <div v-if="!isLoadingConsumers && availableConsumers.length === 0" class="empty-message">
+                            No consumers available
                         </div>
                     </div>
                 </div>
@@ -74,16 +86,22 @@
                                 </div>
                             </label>
                         </div>
+                        <div v-if="isLoadingDataSources" class="loading-indicator">
+                            Loading data sources...
+                        </div>
+                        <div v-if="!isLoadingDataSources && availableDataSources.length === 0" class="empty-message">
+                            No data sources available
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-buttons">
-                <button class="back-btn" @click="$emit('back')">Back</button>
-                <button class="save-draft" @click="$emit('save-draft')">Save Draft</button>
+                <button class="back-btn" @click="goBack">Back</button>
+                <button class="save-draft" @click="saveDraft">Save Draft</button>
                 <button 
                     class="continue-btn" 
-                    @click="$emit('continue')"
+                    @click="continueToNextStep"
                     :disabled="!isValid"
                 >
                     Continue to Step 4
@@ -94,7 +112,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
     name: 'DatasetRegistrationStep3',
@@ -115,7 +133,11 @@ export default {
             selectedDataSources: [],
             availableProducers: [],
             availableConsumers: [],
-            availableDataSources: []
+            availableDataSources: [],
+            isLoadingProducers: false,
+            isLoadingConsumers: false,
+            isLoadingDataSources: false,
+            error: null
         }
     },
 
@@ -131,48 +153,114 @@ export default {
         updateForm() {
             this.$emit('update:formData', {
                 ...this.formData,
-                datasetProducers: this.selectedProducers,
-                datasetConsumers: this.selectedConsumers,
-                dataSources: this.selectedDataSources
+                datasetProducers: [...this.selectedProducers],
+                datasetConsumers: [...this.selectedConsumers],
+                dataSources: [...this.selectedDataSources]
             });
+        },
+        
+        saveDraft() {
+            this.$emit('save-draft');
+        },
+        
+        continueToNextStep() {
+            if (this.isValid) {
+                this.$emit('continue');
+            } else {
+                alert('Please select at least one producer, consumer, and data source.');
+            }
+        },
+        
+        goBack() {
+            this.$emit('back');
         },
 
         async fetchChannelData() {
             try {
-                const [producersRes, consumersRes, sourcesRes] = await Promise.all([
-                    axios.get('http://localhost:3000/api/producers'),
-                    axios.get('http://localhost:3000/api/consumers'),
-                    axios.get('http://localhost:3000/api/datasources')
-                ]);
-
-                this.availableProducers = producersRes.data;
-                this.availableConsumers = consumersRes.data;
-                this.availableDataSources = sourcesRes.data;
+                // Setup API URL based on environment or default
+                const API_URL = 'http://localhost:3000/api';
+                
+                // Fetch producers
+                this.isLoadingProducers = true;
+                try {
+                    const producersRes = await axios.get(`${API_URL}/producers`);
+                    this.availableProducers = producersRes.data;
+                } catch (error) {
+                    console.error('Error fetching producers:', error);
+                    // Add mock producers for testing if API fails
+                    this.availableProducers = [
+                        {
+                            producerId: "doc-processing",
+                            producerName: "Document Processing Team",
+                            producerDescription: "Team responsible for processing and validating documents"
+                        },
+                        {
+                            producerId: "fraud-detection",
+                            producerName: "Fraud Detection Team",
+                            producerDescription: "Team responsible for fraud detection and monitoring"
+                        }
+                    ];
+                } finally {
+                    this.isLoadingProducers = false;
+                }
+                
+                // Fetch consumers
+                this.isLoadingConsumers = true;
+                try {
+                    const consumersRes = await axios.get(`${API_URL}/consumers`);
+                    this.availableConsumers = consumersRes.data;
+                } catch (error) {
+                    console.error('Error fetching consumers:', error);
+                    // Add mock consumers for testing if API fails
+                    this.availableConsumers = [
+                        {
+                            consumerId: "fraud-team",
+                            consumerName: "Fraud Detection Team",
+                            consumerDescription: "Team handling fraud detection and analysis"
+                        },
+                        {
+                            consumerId: "compliance-team",
+                            consumerName: "Compliance Team",
+                            consumerDescription: "Team ensuring compliance with regulations"
+                        }
+                    ];
+                } finally {
+                    this.isLoadingConsumers = false;
+                }
+                
+                // Fetch data sources
+                this.isLoadingDataSources = true;
+                try {
+                    const sourcesRes = await axios.get(`${API_URL}/datasources`);
+                    this.availableDataSources = sourcesRes.data;
+                } catch (error) {
+                    console.error('Error fetching data sources:', error);
+                    // Add mock data sources for testing if API fails
+                    this.availableDataSources = [
+                        {
+                            dataSourceId: "doc-upload",
+                            dataSourceName: "Document Upload System",
+                            dataSourceDescription: "System handling document uploads and processing"
+                        },
+                        {
+                            dataSourceId: "customer-portal",
+                            dataSourceName: "Customer Portal",
+                            dataSourceDescription: "Main customer interaction portal"
+                        }
+                    ];
+                } finally {
+                    this.isLoadingDataSources = false;
+                }
             } catch (error) {
                 console.error('Error fetching channel data:', error);
-                // For demo, add some mock data if API fails
-                this.availableProducers = [
-                    {
-                        producerId: "doc-processing",
-                        producerName: "Document Processing Team",
-                        producerDescription: "Team responsible for processing and validating documents"
-                    }
-                ];
-                this.availableConsumers = [
-                    {
-                        consumerId: "fraud-team",
-                        consumerName: "Fraud Detection Team",
-                        consumerDescription: "Team handling fraud detection and analysis"
-                    }
-                ];
-                this.availableDataSources = [
-                    {
-                        dataSourceId: "doc-upload",
-                        dataSourceName: "Document Upload System",
-                        dataSourceDescription: "System handling document uploads and processing"
-                    }
-                ];
+                this.error = 'Failed to load channel data. Please try again.';
             }
+        },
+        
+        arraysEqual(a, b) {
+            if (!a || !b) return false;
+            if (a.length !== b.length) return false;
+            return a.every((item, index) => item === b[index]);
         }
     },
 
@@ -190,6 +278,33 @@ export default {
 
         // Fetch available channels
         this.fetchChannelData();
+    },
+    
+    watch: {
+        'formData.datasetProducers': {
+            handler(newProducers) {
+                if (newProducers && !this.arraysEqual(newProducers, this.selectedProducers)) {
+                    this.selectedProducers = [...newProducers];
+                }
+            },
+            deep: true
+        },
+        'formData.datasetConsumers': {
+            handler(newConsumers) {
+                if (newConsumers && !this.arraysEqual(newConsumers, this.selectedConsumers)) {
+                    this.selectedConsumers = [...newConsumers];
+                }
+            },
+            deep: true
+        },
+        'formData.dataSources': {
+            handler(newSources) {
+                if (newSources && !this.arraysEqual(newSources, this.selectedDataSources)) {
+                    this.selectedDataSources = [...newSources];
+                }
+            },
+            deep: true
+        }
     }
 }
 </script>
@@ -267,6 +382,22 @@ h3 {
 .channel-description {
     color: #666;
     font-size: 0.9rem;
+}
+
+.loading-indicator {
+    text-align: center;
+    padding: 1rem;
+    color: #666;
+    font-style: italic;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 1rem;
+    color: #666;
+    font-style: italic;
+    background: #f8f9fa;
+    border-radius: 4px;
 }
 
 .form-buttons {

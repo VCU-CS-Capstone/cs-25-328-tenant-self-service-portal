@@ -1,4 +1,5 @@
 const db = require('../database/database'); 
+const { v4: uuidv4 } = require('uuid');
 
 const getAllDatasets = async (req, res) => {
     try {
@@ -8,28 +9,34 @@ const getAllDatasets = async (req, res) => {
       let query = 'SELECT * FROM datasets';
       let whereConditions = [];
       let params = [];
-      let paramCount = 1;
       
       if (status) {
-        whereConditions.push(`status = $${paramCount++}`);
+        whereConditions.push(`status = ?`);
         params.push(status);
       } 
       
       if (lineOfBusiness) {
-        whereConditions.push(`line_of_business = $${paramCount++}`);
+        whereConditions.push(`line_of_business = ?`);
         params.push(lineOfBusiness);
       } 
       
       if (search) {
-        whereConditions.push(`(dataset_name ILIKE $${paramCount} OR description ILIKE $${paramCount})`);
+        whereConditions.push(`(dataset_name LIKE ? OR description LIKE ?)`);
         params.push(`%${search}%`);
-        paramCount++;
+        params.push(`%${search}%`);
       } 
       
       if (whereConditions.length > 0) {
         query += ` WHERE ${whereConditions.join(' AND ')}`;
-      } 
+      }
       
+      // Add pagination
+      query += ` LIMIT ? OFFSET ?`;
+      params.push(parseInt(limit));
+      params.push(offset);
+      
+      const [results] = await db.query(query, params);
+      res.json(results);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error fetching datasets" });
@@ -40,13 +47,13 @@ const getAllDatasets = async (req, res) => {
   const getDatasetById = async (req, res) => {
     try {
       const { datasetId } = req.params;
-      const result = await db.query('SELECT * FROM datasets WHERE dataset_id = $1', [datasetId]);
+      const [results] = await db.query('SELECT * FROM datasets WHERE dataset_id = ?', [datasetId]);
       
-      if (result.rows.length === 0) {
+      if (results.length === 0) {
         return res.status(404).json({ message: "Dataset not found" });
       }
       
-      res.json(result.rows[0]);
+      res.json(results[0]);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error fetching dataset" });
@@ -55,7 +62,8 @@ const getAllDatasets = async (req, res) => {
 
 const createDataset = async (req, res) => {
     try {
-        const {
+        // Extract data from request body
+        let {
             dataset_id,
             dataset_version,
             dataset_name,
@@ -72,6 +80,11 @@ const createDataset = async (req, res) => {
             data_sources,
             life_cycle_management_policy_ids
         } = req.body;
+
+        // Generate a UUID if dataset_id is not provided
+        if (!dataset_id) {
+            dataset_id = uuidv4();
+        }
 
         const query = `
             INSERT INTO datasets (
@@ -91,13 +104,12 @@ const createDataset = async (req, res) => {
                 dataset_consumers,
                 data_sources,
                 life_cycle_management_policy_ids
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
-            RETURNING *
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
         const values = [
             dataset_id,
-            dataset_version,
+            dataset_version || '1.0',
             dataset_name,
             line_of_business,
             description,
@@ -114,11 +126,18 @@ const createDataset = async (req, res) => {
             JSON.stringify(life_cycle_management_policy_ids || [])
         ];
 
-        const result = await db.query(query, values);
-        res.status(201).json(result.rows[0]);
+        // Execute query
+        const [result] = await db.query(query, values);
+        
+        // Return the created dataset
+        res.status(201).json({
+            dataset_id: dataset_id,
+            ...req.body,
+            status: 'DRAFT'
+        });
     } catch (error) {
         console.error(error);
-        res.status(400).json({ message: "Error creating dataset" });
+        res.status(400).json({ message: "Error creating dataset: " + error.message });
     }
 };
 
@@ -143,29 +162,28 @@ const updateDataset = async (req, res) => {
         } = req.body;
 
         // Check if dataset exists
-        const checkResult = await db.query('SELECT * FROM datasets WHERE dataset_id = $1', [datasetId]);
-        if (checkResult.rows.length === 0) {
+        const [checkResults] = await db.query('SELECT * FROM datasets WHERE dataset_id = ?', [datasetId]);
+        if (checkResults.length === 0) {
             return res.status(404).json({ message: "Dataset not found" });
         }
 
         const query = `
             UPDATE datasets SET
-                dataset_version = $1,
-                dataset_name = $2,
-                line_of_business = $3,
-                description = $4,
-                has_international_data = $5,
-                accountable_executive = $6,
-                performing_data_steward = $7,
-                managing_data_steward = $8,
-                managed_field_contracts = $9,
-                client_field_contracts = $10,
-                dataset_producers = $11,
-                dataset_consumers = $12,
-                data_sources = $13,
-                life_cycle_management_policy_ids = $14
-            WHERE dataset_id = $15
-            RETURNING *
+                dataset_version = ?,
+                dataset_name = ?,
+                line_of_business = ?,
+                description = ?,
+                has_international_data = ?,
+                accountable_executive = ?,
+                performing_data_steward = ?,
+                managing_data_steward = ?,
+                managed_field_contracts = ?,
+                client_field_contracts = ?,
+                dataset_producers = ?,
+                dataset_consumers = ?,
+                data_sources = ?,
+                life_cycle_management_policy_ids = ?
+            WHERE dataset_id = ?
         `;
 
         const values = [
@@ -186,8 +204,11 @@ const updateDataset = async (req, res) => {
             datasetId
         ];
 
-        const result = await db.query(query, values);
-        res.json(result.rows[0]);
+        await db.query(query, values);
+        
+        // Fetch the updated dataset
+        const [updatedResults] = await db.query('SELECT * FROM datasets WHERE dataset_id = ?', [datasetId]);
+        res.json(updatedResults[0]);
     } catch (error) {
         console.error(error);
         res.status(400).json({ message: "Error updating dataset" });
@@ -197,9 +218,9 @@ const updateDataset = async (req, res) => {
 const deleteDataset = async (req, res) => {
     try {
         const { datasetId } = req.params;
-        const result = await db.query('DELETE FROM datasets WHERE dataset_id = $1 RETURNING *', [datasetId]);
+        const [result] = await db.query('DELETE FROM datasets WHERE dataset_id = ?', [datasetId]);
         
-        if (result.rows.length === 0) {
+        if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Dataset not found" });
         }
         
@@ -213,19 +234,21 @@ const deleteDataset = async (req, res) => {
 const submitDataset = async (req, res) => {
     try {
         const { datasetId } = req.params;
-        const result = await db.query(
-            'UPDATE datasets SET status = $1 WHERE dataset_id = $2 RETURNING *',
+        const [result] = await db.query(
+            'UPDATE datasets SET status = ? WHERE dataset_id = ?',
             ['PENDING_REVIEW', datasetId]
         );
         
-        if (result.rows.length === 0) {
+        if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Dataset not found" });
         }
         
-        res.json(result.rows[0]);
+        // Fetch the updated dataset
+        const [updatedResults] = await db.query('SELECT * FROM datasets WHERE dataset_id = ?', [datasetId]);
+        res.json(updatedResults[0]);
     } catch (error) {
         console.error(error);
-        res.status(400).json({ message: "Error submitting dataset" });
+        res.status(400).json({ message: "Error submitting dataset: " + error.message });
     }
 };
 
@@ -236,16 +259,18 @@ const approveDataset = async (req, res) => {
         }
 
         const { datasetId } = req.params;
-        const result = await db.query(
-            'UPDATE datasets SET status = $1 WHERE dataset_id = $2 RETURNING *',
+        const [result] = await db.query(
+            'UPDATE datasets SET status = ? WHERE dataset_id = ?',
             ['COMPLETED', datasetId]
         );
 
-        if (result.rows.length === 0) {
+        if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Dataset not found" });
         }
 
-        res.json(result.rows[0]);
+        // Fetch the updated dataset
+        const [updatedResults] = await db.query('SELECT * FROM datasets WHERE dataset_id = ?', [datasetId]);
+        res.json(updatedResults[0]);
     } catch (error) {
         console.error(error);
         res.status(400).json({ message: "Error approving dataset" });
@@ -259,16 +284,18 @@ const rejectDataset = async (req, res) => {
         }
 
         const { datasetId } = req.params;
-        const result = await db.query(
-            'UPDATE datasets SET status = $1 WHERE dataset_id = $2 RETURNING *',
+        const [result] = await db.query(
+            'UPDATE datasets SET status = ? WHERE dataset_id = ?',
             ['DRAFT', datasetId]
         );
 
-        if (result.rows.length === 0) {
+        if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Dataset not found" });
         }
 
-        res.json(result.rows[0]);
+        // Fetch the updated dataset
+        const [updatedResults] = await db.query('SELECT * FROM datasets WHERE dataset_id = ?', [datasetId]);
+        res.json(updatedResults[0]);
     } catch (error) {
         console.error(error);
         res.status(400).json({ message: "Error rejecting dataset" });
@@ -279,14 +306,16 @@ const getDatasetsByProducer = async (req, res) => {
     try {
         const { producerId } = req.params;
 
+        // MySQL JSON search (different from PostgreSQL)
+        // This is a simplification - may need adjustment based on your MySQL version
         const query = `
             SELECT * FROM datasets 
-            WHERE dataset_producers @> $1::jsonb
+            WHERE JSON_CONTAINS(dataset_producers, ?)
             ORDER BY dataset_name
         `;
         
-        const result = await db.query(query, [JSON.stringify([producerId])]);
-        res.json(result.rows);
+        const [results] = await db.query(query, [JSON.stringify(producerId)]);
+        res.json(results);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error fetching datasets by producer" });
@@ -297,14 +326,15 @@ const getDatasetsByConsumer = async (req, res) => {
     try {
         const { consumerId } = req.params;
 
+        // MySQL JSON search (different from PostgreSQL)
         const query = `
             SELECT * FROM datasets 
-            WHERE dataset_consumers @> $1::jsonb
+            WHERE JSON_CONTAINS(dataset_consumers, ?)
             ORDER BY dataset_name
         `;
         
-        const result = await db.query(query, [JSON.stringify([consumerId])]);
-        res.json(result.rows);
+        const [results] = await db.query(query, [JSON.stringify(consumerId)]);
+        res.json(results);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error fetching datasets by consumer" });
@@ -315,14 +345,15 @@ const getDatasetsByDataSource = async (req, res) => {
     try {
         const { dataSourceId } = req.params;
 
+        // MySQL JSON search (different from PostgreSQL)
         const query = `
             SELECT * FROM datasets 
-            WHERE data_sources @> $1::jsonb
+            WHERE JSON_CONTAINS(data_sources, ?)
             ORDER BY dataset_name
         `;
         
-        const result = await db.query(query, [JSON.stringify([dataSourceId])]);
-        res.json(result.rows);
+        const [results] = await db.query(query, [JSON.stringify(dataSourceId)]);
+        res.json(results);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error fetching datasets by data source" });
@@ -341,8 +372,8 @@ const getDatasetStats = async (req, res) => {
             FROM datasets
         `;
         
-        const result = await db.query(statsQuery);
-        res.json(result.rows[0]);
+        const [results] = await db.query(statsQuery);
+        res.json(results[0]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error fetching dataset statistics" });
@@ -353,8 +384,8 @@ const getDatasetStats = async (req, res) => {
 // const getDatasetComments = async (req, res) => {
 //     try {
 //         const { datasetId } = req.params;
-//         const result = await db.query('SELECT * FROM dataset_comments WHERE dataset_id = $1 ORDER BY created_at DESC', [datasetId]);
-//         res.json(result.rows);
+//         const [results] = await db.query('SELECT * FROM dataset_comments WHERE dataset_id = ? ORDER BY created_at DESC', [datasetId]);
+//         res.json(results);
 //     } catch (error) {
 //         console.error(error);
 //         res.status(500).json({ message: "Error fetching comments" });
@@ -368,12 +399,14 @@ const getDatasetStats = async (req, res) => {
 //         const userId = req.user.id;
 //         const isAdmin = req.user.role === 'admin';
         
-//         const result = await db.query(
-//             'INSERT INTO dataset_comments (dataset_id, text, created_by, is_admin_comment) VALUES ($1, $2, $3, $4) RETURNING *',
+//         const [result] = await db.query(
+//             'INSERT INTO dataset_comments (dataset_id, text, created_by, is_admin_comment) VALUES (?, ?, ?, ?)',
 //             [datasetId, text, userId, isAdmin]
 //         );
         
-//         res.status(201).json(result.rows[0]);
+//         // Get the inserted comment
+//         const [newComment] = await db.query('SELECT * FROM dataset_comments WHERE id = ?', [result.insertId]);
+//         res.status(201).json(newComment[0]);
 //     } catch (error) {
 //         console.error(error);
 //         res.status(400).json({ message: "Error adding comment" });

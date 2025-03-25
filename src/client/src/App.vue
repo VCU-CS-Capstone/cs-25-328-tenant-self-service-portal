@@ -16,6 +16,9 @@ export default {
   name: 'App',
   components: {
     Header
+  },
+  mounted() {
+    console.log('App mounted');
   }
 }
 </script>
