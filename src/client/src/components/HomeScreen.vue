@@ -26,29 +26,29 @@
 
         <!-- Datasets Box -->
         <div class="box">
-          <h3>Datasets</h3>
-          <div v-if="loading" class="loading">Loading datasets...</div>
-          <div v-if="error" class="error">{{ error }}</div>
-          <div v-if="!loading && !error" class="scrollable">
-            <ul>
-              <li v-for="dataset in datasets" :key="dataset.dataset_id">
-                {{ dataset.dataset_name }}
-                <span>
-                  <button @click="favoriteDataset(dataset.dataset_id)">⭐</button>
-                  <button @click="edit(dataset.dataset_id)">✏️</button>
-                </span>
-              </li>
-            </ul>
-            <div v-if="datasets.length === 0" class="no-data">
-              No datasets available
-            </div>
-          </div>
-          <div class="actions-grid">
-            <button @click="addNewDataset">Add New</button>
-            <button @click="reviewDatasets">Review</button>
-            <button @click="viewAllDatasets">View All</button>
-          </div>
-        </div>
+  <h3>Datasets</h3>
+  <div v-if="loading" class="loading">Loading datasets...</div>
+  <div v-if="error" class="error">{{ error }}</div>
+  <div v-if="!loading && !error" class="scrollable">
+    <ul>
+      <li v-for="dataset in datasets" :key="dataset.dataset_id">
+        {{ dataset.dataset_name }}
+        <span>
+          <button @click="favoriteDataset(dataset.dataset_id)">⭐</button>
+          <button @click="edit(dataset.dataset_id)">✏️</button>
+        </span>
+      </li>
+    </ul>
+    <div v-if="datasets.length === 0" class="no-data">
+      No datasets available
+    </div>
+  </div>
+  <div class="actions-grid">
+    <button @click="addNewDataset">Add New</button>
+    <button @click="reviewDatasets">Review</button>
+    <button @click="viewAllDatasets">View All</button>
+  </div>
+</div>
 
         <!-- Call-to-Action Section -->
         <div class="box cta">
@@ -102,7 +102,7 @@ export default {
       console.log('Fetching datasets...');
       this.loading = true;
       this.error = null;
-      
+
       try {
         const data = await getAllDatasets();
         console.log('Datasets received:', data);
@@ -146,69 +146,46 @@ export default {
 </script>
 
 <style scoped>
+/* Page Layout */
 .page {
-  min-height: 100vh;
+  height: calc(100vh - 80px); 
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.space {
+  /* Space properties */
 }
 
 .main-container {
   background-color: #017291;
-  min-height: calc(100vh - 80px); /* Changed from 106px to match header height */
+  flex: 1;
   padding: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: auto;
+  overflow: hidden;
 }
 
-
+/* Box Layout and Structure */
 .boxes {
   display: flex;
   gap: 2rem;
-  width: 65%; /* Changed from max-width */
-  justify-content: space-between; /* Changed from center */
+  width: 65%;
+  justify-content: space-between;
   align-items: stretch;
 }
 
 .box {
   background: white;
   border-radius: 10px;
-  padding-top: 1.75rem;
-  padding-bottom: 1.75rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding: 1.75rem 2rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem; 
-}
-
-.box li button {
-  background: transparent;
-  border: none;
-  color: #017291;
-  cursor: pointer;
-  padding: 4px 8px;
-  font-size: 1rem;
-  transition: color 0.2s ease;
-  display: flex;
-  align-items: center;
-}
-
-.box li button:hover {
-  color: #033450;
-}
-
-.box li span {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.box h3 {
-  font-size: 1.25rem;
-  margin: 0.5rem 0 0.5rem 0;
-  color: #033450; 
-  font-weight: bold;
+  gap: 0.75rem;
+  max-height: 100%;
 }
 
 .box.cta {
@@ -216,16 +193,21 @@ export default {
   color: white;
 }
 
+.box h3 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+  color: #033450; 
+  font-weight: bold;
+}
+
+/* Scrollable Content */
 .scrollable {
   flex: 1;
   overflow-y: auto;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  background: white;
+  max-height: 240px; /* Fixed height for scrollable content */
 }
 
+/* Lists and List Items */
 .box ul {
   list-style: none;
   padding: 0;
@@ -242,6 +224,29 @@ export default {
   color: #000000;
 }
 
+.box li span {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Buttons */
+.box li button {
+  background: transparent;
+  border: none;
+  color: #017291;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.box li button:hover {
+  color: #033450;
+}
+
 .actions-grid {
   display: flex;
   gap: 0.5rem;
@@ -250,16 +255,22 @@ export default {
 .actions-grid button {
   flex: 1;
   padding: 0.5rem;
-  background: transparent; /* Changed from white */
+  background: transparent;
   color: #017291;
   border: none;
   border-radius: 5px;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: color 0.2s ease; /* Smooth color transition */
+  transition: color 0.2s ease;
 }
 
+.actions-grid button:hover {
+  color: #033450;
+  background: transparent;
+}
+
+/* CTA Section */
 .cta-buttons-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -275,16 +286,22 @@ export default {
   cursor: pointer;
 }
 
-.actions-grid button:hover {
-  color: #033450; /* Match header hover color */
-  background: transparent; /* Keep background transparent */
-}
-
 .cta-buttons-grid button:hover {
   background: #f5f6f7;
   color: #017291;
 }
 
+/* Status Messages */
+.loading, .error, .no-data {
+  padding: 1rem;
+  text-align: center;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+/* Responsive Design */
 @media (max-width: 1024px) {
   .main-container {
     padding: 1.5rem;
@@ -296,27 +313,31 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .page {
+    height: auto; /* Allow full height content */
+    min-height: calc(100vh - 70px); /* Minimum height */
+    overflow: visible; /* Allow scrolling */
+  }
+  
   .main-container {
-    align-items: flex-start;
+    overflow: visible; /* Allow scrolling */
     padding: 1rem;
   }
 
   .boxes {
     flex-direction: column;
     width: 100%;
+    height: auto; /* Allow content to determine height */
   }
 
   .box {
     width: auto;
     max-width: none;
+    margin-bottom: 1rem; /* Add spacing between stacked boxes */
   }
 
   .scrollable {
-    max-height: 200px;
-  }
-
-  .cta-buttons-grid {
-    grid-template-columns: 1fr;
+    max-height: 200px; /* Slightly smaller scrollable areas on mobile */
   }
 }
 
