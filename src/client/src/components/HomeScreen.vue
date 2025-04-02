@@ -27,16 +27,21 @@
         <!-- Datasets Box -->
         <div class="box">
           <h3>Datasets</h3>
-          <div class="scrollable">
+          <div v-if="loading" class="loading">Loading datasets...</div>
+          <div v-if="error" class="error">{{ error }}</div>
+          <div v-if="!loading && !error" class="scrollable">
             <ul>
-              <li v-for="dataset in datasets" :key="dataset.id">
-                {{ dataset.name }}
+              <li v-for="dataset in datasets" :key="dataset.dataset_id">
+                {{ dataset.dataset_name }}
                 <span>
-                  <button @click="favoriteDataset(dataset.id)">⭐</button>
-                  <button @click="edit(dataset.id)">✏️</button>
+                  <button @click="favoriteDataset(dataset.dataset_id)">⭐</button>
+                  <button @click="edit(dataset.dataset_id)">✏️</button>
                 </span>
               </li>
             </ul>
+            <div v-if="datasets.length === 0" class="no-data">
+              No datasets available
+            </div>
           </div>
           <div class="actions-grid">
             <button @click="addNewDataset">Add New</button>
@@ -84,17 +89,31 @@ export default {
         { id: 5, name: 'Use case name 5' },
         { id: 6, name: 'Use case name 6' },
       ],
-      datasets: [
-        { id: 1, name: 'Dataset name 1' },
-        { id: 2, name: 'Dataset name 2' },
-        { id: 3, name: 'Dataset name 3' },
-        { id: 4, name: 'Dataset name 4' },
-        { id: 5, name: 'Dataset name 5' },
-        { id: 6, name: 'Dataset name 6' },
-      ],
+      datasets: [],
+      loading: true,
+      error: null
     };
   },
+  created() {
+    this.fetchDatasets();
+  },
   methods: {
+    async fetchDatasets() {
+      console.log('Fetching datasets...');
+      this.loading = true;
+      this.error = null;
+      
+      try {
+        const data = await getAllDatasets();
+        console.log('Datasets received:', data);
+        this.datasets = data || [];
+        this.loading = false;
+      } catch (error) {
+        console.error('Error fetching datasets:', error);
+        this.error = `Failed to load datasets: ${error.message}`;
+        this.loading = false;
+      }
+    },
     addNewUseCase() {
       this.router.push('/usecases/register/');
     },

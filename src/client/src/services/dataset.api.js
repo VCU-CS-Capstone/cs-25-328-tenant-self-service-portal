@@ -6,12 +6,18 @@ const API_URL = 'http://localhost:3000/api';
 const createApiInstance = () => {
   const token = localStorage.getItem('token');
   return axios.create({
-    baseURL: API_URL,
+    baseURL: `${API_URL}/datasets`,
     headers: {
       'Content-Type': 'application/json',
       'Authorization': token ? `Bearer ${token}` : '',
     }
   });
+};
+
+// Helper function to handle API errors
+const handleApiError = (error, customMessage) => {
+  console.error(customMessage || 'API Error:', error.response?.data || error.message);
+  throw error;
 };
 
 // Format dataset form data to match API requirements
@@ -34,62 +40,88 @@ const formatDatasetData = (formData) => {
   };
 };
 
+// Get all datasets (with optional filters)
+export const getAllDatasets = async (filters = {}) => {
+  try {
+    const api = createApiInstance();
+    const response = await api.get('', { params: filters });
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Error fetching datasets:');
+  }
+}; 
+
+// Get dataset by ID
+export const getDatasetById = async (datasetId) => {
+  try {
+    const api = createApiInstance();
+    const response = await api.get(`/${datasetId}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Error fetching dataset:');
+  }
+};
+
 // Save draft dataset
 export const saveDatasetDraft = async (formData) => {
-    const api = createApiInstance();
-    const formattedData = formatDatasetData(formData);
-    
-    try {
-      let response;
-      
-      // If we have a dataset ID, update existing draft
-      if (formData.dataset_id) {
-        response = await api.put(`/datasets/${formData.dataset_id}`, formattedData);
-      } else {
-        // Otherwise create a new draft
-        response = await api.post('/datasets', formattedData);
-      }
-      
-      return response.data;
-    } catch (error) {
-      console.error('Error saving dataset draft:', error);
-      throw error;
+  const api = createApiInstance();
+  const formattedData = formatDatasetData(formData);
+  try {
+    let response;
+    // If we have a dataset ID, update existing draft
+    if (formData.dataset_id) {
+      response = await api.put(`/${formData.dataset_id}`, formattedData);
+    } else {
+      // Otherwise create a new draft
+      response = await api.post('', formattedData);
     }
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Error saving dataset draft:');
+  }
+};
+
+// Create a new dataset
+export const createDataset = async (datasetData) => {
+  try {
+    const api = createApiInstance();
+    const response = await api.post('', datasetData);
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Error creating dataset:');
+  }
+};
+
+// Update an existing dataset
+export const updateDataset = async (datasetId, datasetData) => {
+  try {
+    const api = createApiInstance();
+    const response = await api.put(`/${datasetId}`, datasetData);
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Error updating dataset:');
+  }
+};
+
+// Delete a dataset
+export const deleteDataset = async (datasetId) => {
+  try {
+    const api = createApiInstance();
+    const response = await api.delete(`/${datasetId}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Error deleting dataset:');
+  }
 };
 
 // Submit dataset for review
 export const submitDataset = async (datasetId) => {
   try {
     const api = createApiInstance();
-    const response = await api.post(`/datasets/${datasetId}/submit`);
+    const response = await api.post(`/${datasetId}/submit`);
     return response.data;
   } catch (error) {
-    console.error('Error submitting dataset:', error);
-    throw error;
-  }
-};
-
-// Get all datasets (with optional filters)
-export const getAllDatasets = async (filters = {}) => {
-  try {
-    const api = createApiInstance();
-    const response = await api.get('/datasets', { params: filters });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching datasets:', error);
-    throw error;
-  }
-};
-
-// Get dataset by ID
-export const getDatasetById = async (datasetId) => {
-  try {
-    const api = createApiInstance();
-    const response = await api.get(`/datasets/${datasetId}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching dataset:', error);
-    throw error;
+    handleApiError(error, 'Error submitting dataset:');
   }
 };
 
@@ -97,11 +129,10 @@ export const getDatasetById = async (datasetId) => {
 export const approveDataset = async (datasetId) => {
   try {
     const api = createApiInstance();
-    const response = await api.post(`/datasets/${datasetId}/approve`);
+    const response = await api.post(`/${datasetId}/approve`);
     return response.data;
   } catch (error) {
-    console.error('Error approving dataset:', error);
-    throw error;
+    handleApiError(error, 'Error approving dataset:');
   }
 };
 
@@ -109,11 +140,43 @@ export const approveDataset = async (datasetId) => {
 export const rejectDataset = async (datasetId) => {
   try {
     const api = createApiInstance();
-    const response = await api.post(`/datasets/${datasetId}/reject`);
+    const response = await api.post(`/${datasetId}/reject`);
     return response.data;
   } catch (error) {
-    console.error('Error rejecting dataset:', error);
-    throw error;
+    handleApiError(error, 'Error rejecting dataset:');
+  }
+};
+
+// Get datasets by producer
+export const getDatasetsByProducer = async (producerId) => {
+  try {
+    const api = createApiInstance();
+    const response = await api.get(`/producer/${producerId}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Error fetching datasets by producer:');
+  }
+};
+
+// Get datasets by consumer
+export const getDatasetsByConsumer = async (consumerId) => {
+  try {
+    const api = createApiInstance();
+    const response = await api.get(`/consumer/${consumerId}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Error fetching datasets by consumer:');
+  }
+};
+
+// Get datasets by data source
+export const getDatasetsByDataSource = async (dataSourceId) => {
+  try {
+    const api = createApiInstance();
+    const response = await api.get(`/datasource/${dataSourceId}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Error fetching datasets by data source:');
   }
 };
 
@@ -122,6 +185,12 @@ export default {
   submitDataset,
   getAllDatasets,
   getDatasetById,
+  createDataset,
+  updateDataset,
+  deleteDataset,
   approveDataset,
-  rejectDataset
+  rejectDataset,
+  getDatasetsByProducer,
+  getDatasetsByConsumer,
+  getDatasetsByDataSource
 };
