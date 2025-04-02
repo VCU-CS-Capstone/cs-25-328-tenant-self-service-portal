@@ -66,6 +66,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
+import { getAllDatasets } from '@/services/dataset.api';
 
 export default {
   name: 'HomeScreen',

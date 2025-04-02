@@ -38,7 +38,7 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import datasetService from '../../services/datasetService'
+import datasetService from '../../services/dataset.api'
 
 export default {
   name: 'DatasetRegistrationWrapper',

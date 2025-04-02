@@ -194,7 +194,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import datasetService from '../../services/datasetService';
+import datasetService from '../../services/dataset.api';
 
 export default {
     name: 'DatasetRegistrationStep5',
