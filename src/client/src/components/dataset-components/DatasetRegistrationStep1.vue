@@ -84,11 +84,11 @@
       </div>
 
       <div class="form-buttons">
-        <button class="back-btn" @click="$emit('back')">Back</button>
-        <button class="save-draft" @click="$emit('save-draft')">Save Draft</button>
+        <button class="back-btn" @click="goBack">Back</button>
+        <button class="save-draft" @click="saveDraft">Save Draft</button>
         <button 
           class="continue-btn" 
-          @click="$emit('continue')"
+          @click="continueToNextStep"
           :disabled="!isFormValid"
         >
           Continue to Step 2
@@ -103,64 +103,97 @@ export default {
   name: 'DatasetRegistrationStep1',
   
   props: {
-      formData: {
-          type: Object,
-          required: true
-      }
+    formData: {
+      type: Object,
+      required: true
+    }
   },
 
   emits: ['update:formData', 'save-draft', 'continue', 'back'],
   
   data() {
-      return {
-          localFormData: {
-              datasetName: '',
-              description: '',
-              lineOfBusiness: '',
-              managingDataSteward: '',
-              performingDataSteward: '',
-              accountableExecutive: '',
-              hasInternationalData: false
-          },
-          lineOfBusinessOptions: [
-              { value: 'retail', label: 'Retail Banking' },
-              { value: 'commercial', label: 'Commercial Banking' },
-              { value: 'credit', label: 'Credit Cards' },
-              { value: 'risk', label: 'Risk Management' },
-              { value: 'compliance', label: 'Compliance' }
-          ]
-      }
+    return {
+      localFormData: {
+        datasetName: '',
+        description: '',
+        lineOfBusiness: '',
+        managingDataSteward: '',
+        performingDataSteward: '',
+        accountableExecutive: '',
+        hasInternationalData: false
+      },
+      lineOfBusinessOptions: [
+        { value: 'retail', label: 'Retail Banking' },
+        { value: 'commercial', label: 'Commercial Banking' },
+        { value: 'credit', label: 'Credit Cards' },
+        { value: 'risk', label: 'Risk Management' },
+        { value: 'compliance', label: 'Compliance' }
+      ]
+    }
   },
 
   computed: {
-      isFormValid() {
-          return this.localFormData.datasetName && 
-                 this.localFormData.description &&
-                 this.localFormData.lineOfBusiness &&
-                 this.localFormData.managingDataSteward &&
-                 this.localFormData.performingDataSteward &&
-                 this.localFormData.accountableExecutive
-      }
+    isFormValid() {
+      return this.localFormData.datasetName && 
+             this.localFormData.description &&
+             this.localFormData.lineOfBusiness &&
+             this.localFormData.managingDataSteward &&
+             this.localFormData.performingDataSteward &&
+             this.localFormData.accountableExecutive
+    }
   },
 
   methods: {
-      updateForm() {
-          this.$emit('update:formData', { ...this.localFormData })
+    updateForm() {
+      this.$emit('update:formData', { ...this.formData, ...this.localFormData });
+    },
+    
+    saveDraft() {
+      this.$emit('save-draft');
+    },
+    
+    continueToNextStep() {
+      if (this.isFormValid) {
+        this.$emit('continue');
+      } else {
+        alert('Please complete all required fields before continuing.');
       }
+    },
+    
+    goBack() {
+      this.$emit('back');
+    }
   },
 
   created() {
-      // Initialize local form data with props
-      this.localFormData = { ...this.formData }
+    // Initialize local form data with props
+    this.localFormData = { 
+      datasetName: this.formData.datasetName || '',
+      description: this.formData.description || '',
+      lineOfBusiness: this.formData.lineOfBusiness || '',
+      managingDataSteward: this.formData.managingDataSteward || '',
+      performingDataSteward: this.formData.performingDataSteward || '',
+      accountableExecutive: this.formData.accountableExecutive || '',
+      hasInternationalData: this.formData.hasInternationalData || false
+    };
   },
 
   watch: {
-      formData: {
-          handler(newValue) {
-              this.localFormData = { ...newValue }
-          },
-          deep: true
-      }
+    formData: {
+      handler(newValue) {
+        // Update local form data when props change
+        this.localFormData = { 
+          datasetName: newValue.datasetName || '',
+          description: newValue.description || '',
+          lineOfBusiness: newValue.lineOfBusiness || '',
+          managingDataSteward: newValue.managingDataSteward || '',
+          performingDataSteward: newValue.performingDataSteward || '',
+          accountableExecutive: newValue.accountableExecutive || '',
+          hasInternationalData: newValue.hasInternationalData || false
+        };
+      },
+      deep: true
+    }
   }
 }
 </script>

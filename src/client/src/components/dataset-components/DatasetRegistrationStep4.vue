@@ -22,10 +22,12 @@
                                         type="text"
                                         placeholder="Field Name"
                                         class="field-input"
+                                        @input="updateForm"
                                     >
                                     <select 
                                         v-model="field.fieldType"
                                         class="field-input"
+                                        @change="updateForm"
                                     >
                                         <option value="" disabled>Select Type</option>
                                         <option value="String">String</option>
@@ -42,18 +44,21 @@
                                         placeholder="Date Format (if applicable)"
                                         class="field-input"
                                         :disabled="field.fieldType !== 'Date'"
+                                        @input="updateForm"
                                     >
                                     <div class="field-options">
                                         <label>
                                             <input 
                                                 type="checkbox"
                                                 v-model="field.isRequired"
+                                                @change="updateForm"
                                             > Required
                                         </label>
                                         <label>
                                             <input 
                                                 type="checkbox"
                                                 v-model="field.isFieldTokenized"
+                                                @change="updateForm"
                                             > Tokenized
                                         </label>
                                     </div>
@@ -98,10 +103,12 @@
                                         type="text"
                                         placeholder="Field Name"
                                         class="field-input"
+                                        @input="updateForm"
                                     >
                                     <select 
                                         v-model="field.fieldType"
                                         class="field-input"
+                                        @change="updateForm"
                                     >
                                         <option value="" disabled>Select Type</option>
                                         <option value="String">String</option>
@@ -117,12 +124,14 @@
                                         placeholder="Date Format (if applicable)"
                                         class="field-input"
                                         :disabled="field.fieldType !== 'Date'"
+                                        @input="updateForm"
                                     >
                                     <div class="field-options">
                                         <label>
                                             <input 
                                                 type="checkbox"
                                                 v-model="field.isRequired"
+                                                @change="updateForm"
                                             > Required
                                         </label>
                                     </div>
@@ -135,11 +144,11 @@
             </div>
 
             <div class="form-buttons">
-                <button class="back-btn" @click="$emit('back')">Back</button>
-                <button class="save-draft" @click="$emit('save-draft')">Save Draft</button>
+                <button class="back-btn" @click="goBack">Back</button>
+                <button class="save-draft" @click="saveDraft">Save Draft</button>
                 <button 
                     class="continue-btn" 
-                    @click="handleSubmit"
+                    @click="continueToNextStep"
                     :disabled="!isValid"
                 >
                     Review and Submit
@@ -184,7 +193,11 @@ export default {
                 (!field.isRequired || field.fieldName.trim())
             );
 
-            return hasValidManagedFields && hasValidClientFields;
+            // Validation requires at least one field in each category
+            return hasValidManagedFields && 
+                   hasValidClientFields && 
+                   this.managedFields.length > 0 && 
+                   this.clientFields.length > 0;
         }
     },
 
@@ -244,29 +257,67 @@ export default {
         updateForm() {
             this.$emit('update:formData', {
                 ...this.formData,
-                managedFieldContracts: this.managedFields,
-                clientFieldContracts: this.clientFields
+                managedFieldContracts: [...this.managedFields],
+                clientFieldContracts: [...this.clientFields]
             });
         },
-
-        handleSubmit() {
-            this.updateForm();
-            this.$emit('continue');
+        
+        saveDraft() {
+            this.$emit('save-draft');
+        },
+        
+        continueToNextStep() {
+            if (this.isValid) {
+                this.$emit('continue');
+            } else {
+                alert('Please ensure all fields are properly configured before continuing.');
+            }
+        },
+        
+        goBack() {
+            this.$emit('back');
+        },
+        
+        areFieldsEqual(a, b) {
+            if (!a || !b) return false;
+            if (a.length !== b.length) return false;
+            
+            // Simple comparison - for deep comparison you'd need a more complex approach
+            return JSON.stringify(a) === JSON.stringify(b);
         }
     },
 
     created() {
         // Initialize fields from form data if they exist
-        if (this.formData.managedFieldContracts) {
-            this.managedFields = [...this.formData.managedFieldContracts];
+        if (this.formData.managedFieldContracts && this.formData.managedFieldContracts.length > 0) {
+            this.managedFields = JSON.parse(JSON.stringify(this.formData.managedFieldContracts));
         } else {
             this.addManagedField(); // Start with one empty field
         }
 
-        if (this.formData.clientFieldContracts) {
-            this.clientFields = [...this.formData.clientFieldContracts];
+        if (this.formData.clientFieldContracts && this.formData.clientFieldContracts.length > 0) {
+            this.clientFields = JSON.parse(JSON.stringify(this.formData.clientFieldContracts));
         } else {
             this.addClientField(); // Start with one empty field
+        }
+    },
+    
+    watch: {
+        'formData.managedFieldContracts': {
+            handler(newFields) {
+                if (newFields && !this.areFieldsEqual(newFields, this.managedFields)) {
+                    this.managedFields = JSON.parse(JSON.stringify(newFields));
+                }
+            },
+            deep: true
+        },
+        'formData.clientFieldContracts': {
+            handler(newFields) {
+                if (newFields && !this.areFieldsEqual(newFields, this.clientFields)) {
+                    this.clientFields = JSON.parse(JSON.stringify(newFields));
+                }
+            },
+            deep: true
         }
     }
 }

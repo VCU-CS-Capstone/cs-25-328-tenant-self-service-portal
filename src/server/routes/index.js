@@ -1,9 +1,11 @@
+const express = require('express');
+const datasetRoutes = require('./dataset.routes');
+const authRoutes = require('./auth.routes');
+
 const router = express.Router();
 
 // Mount all routes
 router.use('/datasets', datasetRoutes);
-router.use('/producers', producerRoutes);
-router.use('/consumers', consumerRoutes);
-router.use('/datasources', datasourceRoutes);
-router.use('/fields', fieldRoutes);
 router.use('/auth', authRoutes);
+
+module.exports = router;

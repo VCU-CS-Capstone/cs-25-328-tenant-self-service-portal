@@ -27,11 +27,11 @@
             </div>
 
             <div class="form-buttons">
-                <button class="back-btn" @click="$emit('back')">Back</button>
-                <button class="save-draft" @click="$emit('save-draft')">Save Draft</button>
+                <button class="back-btn" @click="goBack">Back</button>
+                <button class="save-draft" @click="saveDraft">Save Draft</button>
                 <button 
                     class="continue-btn" 
-                    @click="$emit('continue')"
+                    @click="continueToNextStep"
                     :disabled="!isValid"
                 >
                     Continue to Step 3
@@ -97,15 +97,56 @@ export default {
         updateForm() {
             this.$emit('update:formData', {
                 ...this.formData,
-                lifeCycleManagementPolicyIds: this.selectedPolicies
+                lifeCycleManagementPolicyIds: [...this.selectedPolicies]
             });
+        },
+        
+        arraysEqual(a, b) {
+            if (!a || !b) return false;
+            if (a.length !== b.length) return false;
+            return a.every((item, index) => item === b[index]);
+        },
+        
+        saveDraft() {
+            this.$emit('save-draft');
+        },
+        
+        continueToNextStep() {
+            if (this.isValid) {
+                this.$emit('continue');
+            } else {
+                alert('Please select at least one lifecycle management policy.');
+            }
+        },
+        
+        goBack() {
+            this.$emit('back');
         }
     },
 
     created() {
         // Initialize selected policies from form data if they exist
-        if (this.formData.lifeCycleManagementPolicyIds) {
+        if (this.formData.lifeCycleManagementPolicyIds && this.formData.lifeCycleManagementPolicyIds.length > 0) {
             this.selectedPolicies = [...this.formData.lifeCycleManagementPolicyIds];
+        } else {
+            // Pre-select required policies by default
+            this.selectedPolicies = this.availablePolicies
+                .filter(policy => policy.isRequired)
+                .map(policy => policy.id);
+            
+            // Update form data with default selected policies
+            this.updateForm();
+        }
+    },
+    
+    watch: {
+        'formData.lifeCycleManagementPolicyIds': {
+            handler(newPolicies) {
+                if (newPolicies && !this.arraysEqual(newPolicies, this.selectedPolicies)) {
+                    this.selectedPolicies = [...newPolicies];
+                }
+            },
+            deep: true
         }
     }
 }

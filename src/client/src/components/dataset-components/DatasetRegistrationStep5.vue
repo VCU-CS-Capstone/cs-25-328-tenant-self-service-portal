@@ -55,6 +55,10 @@
                              class="policy-item">
                             {{ policyId }}
                         </div>
+                        <div v-if="!formData.lifeCycleManagementPolicyIds || formData.lifeCycleManagementPolicyIds.length === 0" 
+                             class="empty-message">
+                            No policies selected
+                        </div>
                     </div>
                 </div>
 
@@ -73,6 +77,10 @@
                                      class="channel-item">
                                     {{ producer }}
                                 </div>
+                                <div v-if="!formData.datasetProducers || formData.datasetProducers.length === 0" 
+                                     class="empty-message">
+                                    No producers selected
+                                </div>
                             </div>
                         </div>
                         <div class="channel-section">
@@ -83,6 +91,10 @@
                                      class="channel-item">
                                     {{ consumer }}
                                 </div>
+                                <div v-if="!formData.datasetConsumers || formData.datasetConsumers.length === 0" 
+                                     class="empty-message">
+                                    No consumers selected
+                                </div>
                             </div>
                         </div>
                         <div class="channel-section">
@@ -92,6 +104,10 @@
                                      :key="source" 
                                      class="channel-item">
                                     {{ source }}
+                                </div>
+                                <div v-if="!formData.dataSources || formData.dataSources.length === 0" 
+                                     class="empty-message">
+                                    No data sources selected
                                 </div>
                             </div>
                         </div>
@@ -124,6 +140,9 @@
                                         <td>{{ field.isRequired ? 'Yes' : 'No' }}</td>
                                         <td>{{ field.isFieldTokenized ? 'Yes' : 'No' }}</td>
                                     </tr>
+                                    <tr v-if="!formData.managedFieldContracts || formData.managedFieldContracts.length === 0">
+                                        <td colspan="4" class="empty-message">No managed fields defined</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -144,6 +163,9 @@
                                         <td>{{ field.fieldType }}</td>
                                         <td>{{ field.isRequired ? 'Yes' : 'No' }}</td>
                                     </tr>
+                                    <tr v-if="!formData.clientFieldContracts || formData.clientFieldContracts.length === 0">
+                                        <td colspan="3" class="empty-message">No client fields defined</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -151,8 +173,12 @@
                 </div>
             </div>
 
+            <div v-if="errorMessage" class="error-message">
+                {{ errorMessage }}
+            </div>
+
             <div class="form-buttons">
-                <button class="back-btn" @click="$emit('back')">Back</button>
+                <button class="back-btn" @click="goBack">Back</button>
                 <button 
                     class="submit-btn" 
                     @click="submitDataset" 
@@ -166,9 +192,9 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import datasetService from '../../services/dataset.api';
 
 export default {
     name: 'DatasetRegistrationStep5',
@@ -182,43 +208,129 @@ export default {
 
     emits: ['back'],
 
-    setup() {
+    setup(props) {
         const router = useRouter();
         const isSubmitting = ref(false);
+        const errorMessage = ref('');
+        
+        onMounted(() => {
+            // Validate all required fields are present
+            validateForm();
+        });
+        
+        const validateForm = () => {
+            // Basic validation to ensure all required fields are present
+            const requiredFields = [
+                'datasetName', 
+                'description', 
+                'lineOfBusiness',
+                'managingDataSteward',
+                'performingDataSteward',
+                'accountableExecutive'
+            ];
+            
+            for (const field of requiredFields) {
+                if (!props.formData[field]) {
+                    errorMessage.value = `Missing required information: ${field}. Please go back and complete all required fields.`;
+                    return false;
+                }
+            }
+            
+            // Validate policy selection
+            if (!props.formData.lifeCycleManagementPolicyIds || props.formData.lifeCycleManagementPolicyIds.length === 0) {
+                errorMessage.value = 'Please select at least one lifecycle management policy.';
+                return false;
+            }
+            
+            // Validate channel selection
+            if (!props.formData.datasetProducers || props.formData.datasetProducers.length === 0) {
+                errorMessage.value = 'Please select at least one producer.';
+                return false;
+            }
+            
+            if (!props.formData.datasetConsumers || props.formData.datasetConsumers.length === 0) {
+                errorMessage.value = 'Please select at least one consumer.';
+                return false;
+            }
+            
+            if (!props.formData.dataSources || props.formData.dataSources.length === 0) {
+                errorMessage.value = 'Please select at least one data source.';
+                return false;
+            }
+            
+            // Validate fields
+            if (!props.formData.managedFieldContracts || props.formData.managedFieldContracts.length === 0) {
+                errorMessage.value = 'Please define at least one managed field.';
+                return false;
+            }
+            
+            if (!props.formData.clientFieldContracts || props.formData.clientFieldContracts.length === 0) {
+                errorMessage.value = 'Please define at least one client field.';
+                return false;
+            }
+            
+            // All validation passed
+            errorMessage.value = '';
+            return true;
+        };
 
-        return {
-            router,
-            isSubmitting
-        }
-    },
+        const goToStep = (stepNumber) => {
+            router.push(`/datasets/register/steps/${stepNumber}`);
+        };
+        
+        const goBack = () => {
+            router.push(`/datasets/register/steps/4`);
+        };
 
-    methods: {
-        async submitDataset() {
-            if (!confirm('Are you sure you want to submit this dataset?')) {
+        const submitDataset = async () => {
+            // Final validation before submission
+            if (!validateForm()) {
                 return;
             }
 
-            this.isSubmitting = true;
-            try {
-                const response = await axios.post('http://localhost:3000/datasets', this.formData);
-                console.log("Dataset submitted successfully:", response.data);
-                alert('Dataset created successfully!');
-                this.router.push('/datasets');
-            } catch (error) {
-                console.error("Error details:", {
-                    message: error.message,
-                    response: error.response?.data,
-                    status: error.response?.status
-                });
-                alert(`Error submitting dataset: ${error.response?.data?.message || error.message}`);
-            } finally {
-                this.isSubmitting = false;
+            if (!confirm('Are you sure you want to submit this dataset for review?')) {
+                return;
             }
-        },
 
-        goToStep(step) {
-            this.router.push(`/datasets/register/steps/${step}`);
-        }
+            errorMessage.value = '';
+            isSubmitting.value = true;
+
+            try {
+                // First, save the dataset as a draft to ensure all data is up-to-date
+                const saveResponse = await datasetService.saveDatasetDraft(props.formData);
+                
+                // Get dataset ID from response or use existing one
+                const datasetId = saveResponse.dataset_id || props.formData.dataset_id;
+                
+                if (!datasetId) {
+                    throw new Error('Failed to create or retrieve dataset ID');
+                }
+                
+                // Submit the dataset for review
+                await datasetService.submitDataset(datasetId);
+                
+                // Clear localStorage data
+                localStorage.removeItem('datasetFormData');
+                
+                alert('Dataset submitted successfully for review!');
+                router.push('/datasets');
+            } catch (error) {
+                console.error('Error submitting dataset:', error);
+                errorMessage.value = error.response?.data?.message || error.message || 'An unknown error occurred';
+                alert(`Error submitting dataset: ${errorMessage.value}`);
+            } finally {
+                isSubmitting.value = false;
+            }
+        };
+
+        return {
+            isSubmitting,
+            errorMessage,
+            goToStep,
+            submitDataset,
+            goBack,
+            validateForm
+        };
     }
 }
 </script>
@@ -341,10 +453,28 @@ h3 {
     border-radius: 4px;
 }
 
+.empty-message {
+    text-align: center;
+    padding: 0.5rem;
+    color: #888;
+    font-style: italic;
+}
+
+.error-message {
+    color: #dc3545;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    text-align: center;
+}
+
 .form-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 2rem;
+    gap: 1rem;
 }
 
 .back-btn, .submit-btn {

@@ -16,6 +16,9 @@ export default {
   name: 'App',
   components: {
     Header
+  },
+  mounted() {
+    console.log('App mounted');
   }
 }
 </script>
@@ -29,6 +32,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
   color: #017291;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
 body {
