@@ -1,7 +1,7 @@
 <template>
     <nav class="nav">
         <div class="nav-left">
-            <RouterLink to="/" class="brand-link">
+            <RouterLink to="/dashboard" class="brand-link">
                 <img alt="Gallery logo" class="logo" src="../assets/figmalogo.png">
                 <h1 class="title">Gallery</h1>
             </RouterLink>
@@ -13,7 +13,7 @@
                 <span></span>
             </button>
             <div class="nav-links" :class="{ 'active': isMenuOpen }">
-                <RouterLink to="/" @click="isMenuOpen = false">Dashboard</RouterLink>
+                <RouterLink to="/dashboard" @click="isMenuOpen = false">Dashboard</RouterLink>
                 <RouterLink to="/datasets" @click="isMenuOpen = false">Datasets</RouterLink>
                 <RouterLink to="/usecases" @click="isMenuOpen = false">Use Cases</RouterLink>
             </div>
