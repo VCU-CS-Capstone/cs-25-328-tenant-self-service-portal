@@ -57,6 +57,14 @@ export const registerUser = async (userData) => {
       }
     });
     
+    // Log for debugging
+    console.log('Sending registration data:', {
+      first_name: userData.firstName,
+      last_name: userData.lastName,
+      email: userData.email,
+      is_admin: userData.isAdmin ? 1 : 0
+    });
+    
     const response = await api.post('/register', {
       first_name: userData.firstName,
       last_name: userData.lastName,
@@ -84,14 +92,15 @@ export const logoutUser = () => {
 
 // Get current user profile
 export const getCurrentUser = async () => {
-    try {
-      const api = createApiInstance();
-      const response = await api.get('/profile');
-      return response.data;
-    } catch (error) {
-      handleApiError(error, 'Error fetching user profile:');
-    }
-  };
+  try {
+    const api = createApiInstance();
+    // Changed from /me to /profile to match backend routes
+    const response = await api.get('/profile');
+    return response.data;
+  } catch (error) {
+    handleApiError(error, 'Error fetching user profile:');
+  }
+};
 
 // Check if token is valid (can be used to verify authentication status)
 export const validateToken = async () => {
@@ -181,7 +190,4 @@ export default {
   validateToken,
   updateUserProfile,
   changePassword,
-  getAllUsers,
-  updateUser,
-  deleteUser
-};
+}

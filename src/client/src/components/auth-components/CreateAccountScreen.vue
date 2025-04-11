@@ -74,15 +74,16 @@ export default {
     },
     methods: {
         navigateBack() {
-             this.$router.push('/login');
+            this.$router.push('/login');
         },
         async handleSubmit() {
             // Validate admin passkey if needed
             if (this.user.isAdmin) {
-                if (this.adminPasskey !== this.ADMIN_PASSKEY) {
+                if (this.adminPasskey !== "admin123") {
                     this.adminPasskeyError = "Invalid admin passkey";
                     return;
                 }
+                console.log("Admin status being sent:", this.user.isAdmin);
             }
 
             try {
@@ -91,7 +92,7 @@ export default {
                     lastName: this.user.lastName,
                     email: this.user.email,
                     password: this.user.password,
-                    isAdmin: this.user.isAdmin
+                    is_admin: this.user.isAdmin ? 1 : 0
                 });
 
                 // Store user info if needed
