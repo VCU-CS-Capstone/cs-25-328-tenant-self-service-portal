@@ -14,6 +14,7 @@ router.post('/change-password', authenticateUser, authController.changePassword)
 
 // Admin routes - require admin privileges
 router.get('/users', authenticateUser, authorizeAdmin, authController.getAllUsers);
+router.post('/validate-token', authenticateUser, authController.validateToken);
 router.patch('/users/:userId/admin-status', authenticateUser, authorizeAdmin, authController.updateUserAdminStatus);
 
 module.exports = router;

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // Auth screen imports
 import LoginScreen from './components/auth-components/LoginScreen.vue'
+import CreateAccountScreen from './components/auth-components/CreateAccountScreen.vue'
 
 import HomeScreen from './components/HomeScreen.vue'
 import DatasetGallery from './components/dataset-components/DatasetGallery.vue'
@@ -20,20 +21,22 @@ import DatasetRegistrationWrapper from './components/dataset-components/DatasetR
 import UseCaseRegistrationOverview from './components/usecase-components/UseCaseRegistrationOverview.vue'
 import UseCaseRegistrationStep1 from './components/usecase-components/UseCaseRegistrationStep1.vue'
 import UseCaseRegistrationWrapper from './components/usecase-components/UseCaseRegistrationWrapper.vue'
-import CreateAccountScreen from './components/auth-components/CreateAccountScreen.vue'
 
 const routes = [
   {
+    path: '/',
+    redirect: '/login'
+  },
+  {
     path: '/login',
     component: LoginScreen,
-    name: "LoginScreen",
     meta: { 
       hideHeader: true,
       requiresAuth: false
      }
   },
   {
-    path: '/create',
+    path: '/register',
     component: CreateAccountScreen,
     meta: { 
       hideHeader: true,
@@ -118,18 +121,29 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-
-    const isAuthenticated = localStorage.getItem('token') !== null
-    
-    if (!isAuthenticated) {
-      alert(`Unable to authenticate`)
-      next({ name: "LoginScreen" })
+  const token = localStorage.getItem('token');
+  let isAdmin = false;
+  
+  if (token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      isAdmin = !!payload.is_admin;
+    } catch (e) {
+      console.error('Error parsing token:', e);
+    }
+  }
+  
+  // Redirect based on authentication and admin status
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!token) {
+      next('/login');
+    } else if (to.matched.some(record => record.meta.requiresAdmin) && !isAdmin) {
+      next('/user/dashboard');
     } else {
-      next()
+      next();
     }
   } else {
-    next()
+    next();
   }
 })
 

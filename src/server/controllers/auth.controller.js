@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // Load environment variables
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '24h';
 
 const register = async (req, res) => {
@@ -32,7 +32,7 @@ const register = async (req, res) => {
     `;
     
     // Default to non-admin if not specified
-    const adminValue = is_admin === true ? 1 : 0;
+    const adminValue = is_admin ? 1 : 0;
     
     const [result] = await db.query(query, [
       first_name,
@@ -49,7 +49,7 @@ const register = async (req, res) => {
         email,
         is_admin: !!adminValue
       },
-      JWT_SECRET,
+      SECRET_KEY,
       { expiresIn: JWT_EXPIRES_IN }
     );
 
@@ -68,11 +68,6 @@ const register = async (req, res) => {
   }
 };
 
-/**
- * Login a user
- * @param {Object} req - Request object
- * @param {Object} res - Response object
- */
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -103,7 +98,7 @@ const login = async (req, res) => {
                 email: user.email,
                 is_admin: !!user.is_admin
             },
-            JWT_SECRET,
+            SECRET_KEY,
             { expiresIn: JWT_EXPIRES_IN }
         );
 
@@ -122,11 +117,6 @@ const login = async (req, res) => {
     }
 };
 
-/**
- * Get current user profile
- * @param {Object} req - Request object
- * @param {Object} res - Response object
- */
 const getProfile = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -144,11 +134,6 @@ const getProfile = async (req, res) => {
     }
 };
 
-/**
- * Update user profile
- * @param {Object} req - Request object
- * @param {Object} res - Response object
- */
 const updateProfile = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -215,11 +200,6 @@ const updateProfile = async (req, res) => {
     }
 };
 
-/**
- * Change user password
- * @param {Object} req - Request object
- * @param {Object} res - Response object
- */
 const changePassword = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -258,11 +238,6 @@ const changePassword = async (req, res) => {
     }
 };
 
-/**
- * Get all users (admin only)
- * @param {Object} req - Request object
- * @param {Object} res - Response object
- */
 const getAllUsers = async (req, res) => {
     try {
         // This should be protected by admin middleware
@@ -274,11 +249,6 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-/**
- * Update user admin status (admin only)
- * @param {Object} req - Request object
- * @param {Object} res - Response object
- */
 const updateUserAdminStatus = async (req, res) => {
     try {
         // This should be protected by admin middleware
@@ -308,6 +278,16 @@ const updateUserAdminStatus = async (req, res) => {
     }
 };
 
+const validateToken = (req, res) => {
+    // If middleware passed, token is valid
+    res.json({ valid: true, user: {
+      id: req.user.id,
+      email: req.user.email,
+      is_admin: req.user.is_admin
+    }});
+  };
+  
+
 module.exports = {
     register,
     login,
@@ -315,5 +295,6 @@ module.exports = {
     updateProfile,
     changePassword,
     getAllUsers,
-    updateUserAdminStatus
+    updateUserAdminStatus,
+    validateToken
 };

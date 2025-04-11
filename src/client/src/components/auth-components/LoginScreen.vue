@@ -22,6 +22,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
+import { loginUser } from '../../services/auth.api';
 
 export default {
     setup() {
@@ -35,12 +36,39 @@ export default {
         };
     },
     methods: {
-        handleLogin() {
-            this.router.push("/dashboard");
-        },
         navigateToCreateAccount() {
-            this.router.push("/create")
+            this.$router.push('/register');
         },
+        async handleLogin() {
+            try {
+                const response = await loginUser({
+                    email: this.email,
+                    password: this.password
+                });
+
+                if (response.user) {
+                    localStorage.setItem('user', JSON.stringify(response.user));
+                }
+
+                this.$router.push('/dashboard');
+            } catch (error) {
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        this.error = "Invalid email or password";
+                        alert(`Invalid email or password`)
+                    } else if (error.response.status === 404) {
+                        this.error = "User not found";
+                        alert(`User not found`)
+                    } else {
+                        this.error = "Login failed. Please try again.";
+                        alert(`Login failed. Please try again.`)
+                    }
+                } else {
+                    this.error = "An error occurred. Please try again.";
+                    alert(`An error occurred. Please try again.`)
+                }
+            }
+        }
     },
 };
 </script>

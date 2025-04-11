@@ -33,7 +33,7 @@
                 <div class="form-group" v-if="user.isAdmin">
                     <label for="admin-passkey">Admin Passkey</label>
                     <input type="password" id="admin-passkey" v-model="adminPasskey"
-                        :class="{ 'invalid-input': adminPasskeyError }" required placeholder="Enter passkey"/>
+                        :class="{ 'invalid-input': adminPasskeyError }" required placeholder="Enter passkey" />
                     <div class="error-message" v-if="adminPasskeyError">{{ adminPasskeyError }}</div>
                 </div>
 
@@ -50,6 +50,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
+import { registerUser } from '../../services/auth.api'
 
 export default {
     setup() {
@@ -72,31 +73,45 @@ export default {
         };
     },
     methods: {
-        resetAdminPassword() {
-            this.adminPasskey = '';
-            this.adminPasskeyError = '';
+        navigateBack() {
+             this.$router.push('/login');
         },
-        handleSubmit() {
-            this.formError = '';
-            this.adminPasskeyError = '';
-
-            // Validate Admin Passkey if "Is Admin?" is checked
+        async handleSubmit() {
+            // Validate admin passkey if needed
             if (this.user.isAdmin) {
-                if (!this.adminPasskey) {
-                    this.adminPasskeyError = 'Admin passkey is required';
-                    return;
-                }
                 if (this.adminPasskey !== this.ADMIN_PASSKEY) {
-                    this.adminPasskeyError = 'Invalid admin passkey';
+                    this.adminPasskeyError = "Invalid admin passkey";
                     return;
                 }
             }
 
-            // Submit form (mock submission)
-            alert(`Account created successfully! ${this.user.isAdmin ? '(Admin)' : ''}`);
-        },
-        navigateBack() {
-            this.router.push('/login');
+            try {
+                const response = await registerUser({
+                    firstName: this.user.firstName,
+                    lastName: this.user.lastName,
+                    email: this.user.email,
+                    password: this.user.password,
+                    isAdmin: this.user.isAdmin
+                });
+
+                // Store user info if needed
+                if (response.user) {
+                    localStorage.setItem('user', JSON.stringify(response.user));
+                }
+
+                this.$router.push('/login');
+            } catch (error) {
+                // Handle registration errors
+                if (error.response) {
+                    if (error.response.status === 409) {
+                        this.formError = "Email already in use";
+                    } else {
+                        this.formError = "Registration failed. Please try again.";
+                    }
+                } else {
+                    this.formError = "An error occurred. Please try again.";
+                }
+            }
         }
     },
 };
