@@ -146,7 +146,6 @@ export default {
 </script>
 
 <style scoped>
-/* Page Layout */
 .page {
   height: calc(100vh - 80px); 
   overflow: hidden;

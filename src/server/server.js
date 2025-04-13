@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 // Test database connection route
 app.get('/api/test', async (req, res) => {
   try {
-    const [rows] = await pool.execute('SELECT * FROM Users');
+    const [rows] = await pool.execute('SELECT * FROM users');
     res.json(rows);
   } catch (error) {
     console.error('Database query error:', error);
