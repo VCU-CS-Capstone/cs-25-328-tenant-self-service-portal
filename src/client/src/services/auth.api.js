@@ -62,7 +62,7 @@ export const registerUser = async (userData) => {
       first_name: userData.firstName,
       last_name: userData.lastName,
       email: userData.email,
-      is_admin: userData.isAdmin ? 1 : 0
+      is_admin: userData.isAdmin// ? 1 : 0
     });
     
     const response = await api.post('/register', {
@@ -70,7 +70,7 @@ export const registerUser = async (userData) => {
       last_name: userData.lastName,
       email: userData.email,
       password: userData.password,
-      is_admin: userData.isAdmin ? 1 : 0
+      is_admin: userData.isAdmin// ? 1 : 0
     });
     
     // Store token in localStorage if registration also logs in the user

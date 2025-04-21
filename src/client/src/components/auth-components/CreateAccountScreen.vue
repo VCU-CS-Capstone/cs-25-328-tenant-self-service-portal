@@ -92,7 +92,7 @@ export default {
                     lastName: this.user.lastName,
                     email: this.user.email,
                     password: this.user.password,
-                    is_admin: this.user.isAdmin ? 1 : 0
+                    isAdmin: this.user.isAdmin// ? 1 : 0 //CHANGED is_admin -> isAdmin : to communicate correctly to authentication.api
                 });
 
                 // Store user info if needed
