@@ -8,7 +8,10 @@ const pool = require('./database/database');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*',  // allow all for now — adjust later for security
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
@@ -24,7 +27,7 @@ app.get('/', (req, res) => {
 // Test database connection route
 app.get('/api/test', async (req, res) => {
   try {
-    const [rows] = await pool.execute('SELECT * FROM Users');
+    const [rows] = await pool.execute('SELECT * FROM users');
     res.json(rows);
   } catch (error) {
     console.error('Database query error:', error);

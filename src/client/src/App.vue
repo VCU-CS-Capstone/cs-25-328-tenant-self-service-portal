@@ -26,28 +26,31 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
-/* Global font */
-* {
-  font-family: 'Inter', sans-serif;
-}
-
-/* Remove default margins and paddings */
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
-/* Ensure full viewport coverage */
-body {
-  background-color: #ffffff; /* Matches teal background */
-  height: 100vh;
-  overflow: hidden; /* Prevent scrollbar */
-}
-
-/* Ensure app container fills viewport */
 #app {
-  width: 100%;
-  height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+  color: #017291;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  /* overflow: hidden; */
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #FFFFFF;
+  color: #004d66;
+  padding: 0px;
 }
 
 /* Fade transition */

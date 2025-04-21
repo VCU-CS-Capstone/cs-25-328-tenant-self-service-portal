@@ -177,6 +177,7 @@ export default {
 
         async fetchChannelData() {
             try {
+                // Setup API URL based on environment or default
                 const API_URL = process.env.VUE_APP_API_URL;
                 
                 // Fetch producers

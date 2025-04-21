@@ -90,9 +90,10 @@ const routes = [
         name: 'GDRStep4'
       }, 
       {
-        path: '5',
+        path: '5/:datasetId?',
         component: DatasetRegistrationStep5,
-        name: 'GDRStep5'
+        name: 'dataset-step-5',
+        props: route => ({ datasetId: route.params.datasetId })
       }
     ]
   },

@@ -87,3 +87,17 @@ CREATE TABLE dataset_lifecycle_policies (
     policy_id INTEGER REFERENCES lifecycle_management_policies(id),
     PRIMARY KEY (dataset_id, policy_id)
 );
+
+CREATE TABLE comments (
+  comment_id  INT AUTO_INCREMENT PRIMARY KEY,
+  dataset_id varchar(255) NOT NULL,
+  user_id INT NOT NULL,
+  comment_text TEXT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  
+  CONSTRAINT fk_dataset
+    FOREIGN KEY (dataset_id) REFERENCES datasets(dataset_id),
+  
+  CONSTRAINT fk_user
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

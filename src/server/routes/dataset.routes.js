@@ -4,6 +4,8 @@ const datasetController = require('../controllers/dataset.controller');
 const { authenticateUser, authorizeAdmin } = require('../middleware/auth');
 
 // Get all datasets (with optional filtering)
+
+// router.get('/', datasetController.getAllDatasets);
 router.get('/', authenticateUser, datasetController.getAllDatasets);
 
 // Get dataset statistics - specific route should come before parameter routes
