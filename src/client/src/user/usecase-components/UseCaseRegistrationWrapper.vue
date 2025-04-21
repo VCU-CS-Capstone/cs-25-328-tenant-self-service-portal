@@ -77,7 +77,8 @@
       // Your existing methods remain the same
       const saveDraft = async () => {
         try {
-          await axios.post('http://localhost:3000/api/usecases', {
+          await axios.post(`${process.env.VUE_APP_API_URL}/usecases`, {
+          // await axios.post(`${import.meta}`, {
             ...formData.value,
             status: 'DRAFT'
           })

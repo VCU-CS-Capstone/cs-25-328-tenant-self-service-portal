@@ -1,18 +1,25 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = process.env.VUE_APP_API_URL;
 
 // Create axios instance with default headers for auth
 const createApiInstance = () => {
   const token = localStorage.getItem('token');
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
+  // Only add the Authorization header if token exists
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
   return axios.create({
     baseURL: API_URL,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': token ? `Bearer ${token}` : '',
-    }
+    headers,
   });
 };
+
 
 // Format dataset form data to match API requirements
 const formatDatasetData = (formData) => {

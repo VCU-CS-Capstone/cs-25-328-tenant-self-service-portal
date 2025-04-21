@@ -8,7 +8,10 @@ const pool = require('./database/database');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*',  // allow all for now — adjust later for security
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
