@@ -154,10 +154,6 @@ export default {
   flex-direction: column;
 }
 
-.space {
-  /* Space properties */
-}
-
 .main-container {
   background-color: #017291;
   flex: 1;

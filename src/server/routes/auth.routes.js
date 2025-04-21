@@ -7,6 +7,9 @@ const { authenticateUser, authorizeAdmin } = require('../middleware/auth');
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 
+// Added validateToken route
+router.post('/validate-token', authenticateUser, authController.validateToken);
+
 // Protected routes - require authentication
 router.get('/profile', authenticateUser, authController.getProfile);
 router.put('/profile', authenticateUser, authController.updateProfile);
