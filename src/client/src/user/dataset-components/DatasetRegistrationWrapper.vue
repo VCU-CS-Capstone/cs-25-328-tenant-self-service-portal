@@ -112,16 +112,16 @@ export default {
       if (nextStep <= totalSteps) {
         // Save current progress before proceeding
         localStorage.setItem('datasetFormData', JSON.stringify(formData.value))
-        router.push(`/datasets/register/steps/${nextStep}`)
+        router.push(`/user/datasets/register/steps/${nextStep}`)
       }
     }
 
     const handleBack = () => {
       const prevStep = currentStep.value - 1
       if (prevStep >= 1) {
-        router.push(`/datasets/register/steps/${prevStep}`)
+        router.push(`/user/datasets/register/steps/${prevStep}`)
       } else {
-        router.push('/datasets/register')
+        router.push('/user/datasets/register')
       }
     }
 

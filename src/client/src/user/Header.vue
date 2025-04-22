@@ -13,9 +13,9 @@
                 <span></span>
             </button>
             <div class="nav-links" :class="{ 'active': isMenuOpen }">
-                <RouterLink to="/" @click="isMenuOpen = false">Dashboard</RouterLink>
-                <RouterLink to="/datasets" @click="isMenuOpen = false">Datasets</RouterLink>
-                <RouterLink to="/usecases" @click="isMenuOpen = false">Use Cases</RouterLink>
+                <RouterLink to="/dashboard" @click="isMenuOpen = false">Dashboard</RouterLink>
+                <RouterLink to="/user/datasets" @click="isMenuOpen = false">Datasets</RouterLink>
+                <RouterLink to="/user/usecases" @click="isMenuOpen = false">Use Cases</RouterLink>
             </div>
         </div>
     </nav>

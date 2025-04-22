@@ -44,6 +44,9 @@
                     <button type="submit" class="btn-create">Create account</button>
                 </div>
             </form>
+
+            <p v-if="formError" class="error-message">{{ formError }}</p>
+
         </div>
     </div>
 </template>

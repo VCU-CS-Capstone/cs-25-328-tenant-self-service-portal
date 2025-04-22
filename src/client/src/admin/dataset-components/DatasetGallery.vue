@@ -32,7 +32,10 @@
 
             <!-- ACTION BUTTONS (bottom‑right) -->
             <button
-              v-if="activeFilter === 'adminapprove' && dataset.status === 'PENDING_REVIEW'"
+              v-if="
+                activeFilter === 'adminapprove' &&
+                dataset.status === 'PENDING_REVIEW'
+              "
               class="primary-action approve"
               @click="approveDataset(dataset.dataset_id)"
               :title="'Approve ' + dataset.dataset_name"
@@ -41,7 +44,10 @@
             </button>
 
             <button
-              v-if="activeFilter === 'adminapprove' && dataset.status === 'COMPLETED'"
+              v-if="
+                activeFilter === 'adminapprove' &&
+                dataset.status === 'COMPLETED'
+              "
               class="primary-action unapprove"
               @click="unapproveDataset(dataset.dataset_id)"
               title="Move back to Pending Review"

@@ -115,7 +115,7 @@
 import axios from 'axios';
 
 export default {
-    name: 'DatasetRegistrationStep3',
+    name: 'UserGDRStep3',
     
     props: {
         formData: {

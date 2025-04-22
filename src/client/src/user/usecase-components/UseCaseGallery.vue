@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     addNewUseCase() {
-      this.router.push('/usecases/register');
+      this.router.push('/user/usecases/register');
     }
   },
 };

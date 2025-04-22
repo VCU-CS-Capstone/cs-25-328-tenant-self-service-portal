@@ -8,32 +8,36 @@
           href="#"
           @click.prevent="setFilter('all')"
           :class="{ active: activeFilter === 'all' }"
-        >All Datasets</a>
+          >All Datasets</a
+        >
         <a
           href="#"
           @click.prevent="setFilter('pending')"
           :class="{ active: activeFilter === 'pending' }"
-        >Pending Datasets</a>
+          >Pending Datasets</a
+        >
         <a
           href="#"
           @click.prevent="setFilter('review')"
           :class="{ active: activeFilter === 'review' }"
-        >Review Datasets</a>
+          >Review Datasets</a
+        >
         <a
           href="#"
           @click.prevent="setFilter('mine')"
           :class="{ active: activeFilter === 'mine' }"
-        >Datasets Created by Me</a>
+          >Datasets Created by Me</a
+        >
         <a
           href="#"
           @click.prevent="setFilter('comments')"
           :class="{ active: activeFilter === 'comments' }"
-        >Comments</a>
+          >Comments</a
+        >
       </nav>
     </div>
 
     <div class="main-container">
-
       <div class="dataset-grid">
         <div
           v-for="dataset in datasets"
@@ -51,11 +55,7 @@
           <p>{{ dataset.description }}</p>
 
           <!-- Comments UL. Initially hidden via style="display:none" -->
-          <ul
-            ref="commentList"
-            class="comment-list"
-            style="display: none;"
-          >
+          <ul ref="commentList" class="comment-list" style="display: none">
             <!-- Only show comments that match this dataset_id -->
             <li
               v-for="comment in commentsForDataset(dataset.dataset_id)"
@@ -89,7 +89,7 @@ export default {
     return {
       activeFilter: "all",
       datasets: [],
-      comments: [],       
+      comments: [],
       loading: false,
       error: null,
     };
@@ -114,11 +114,11 @@ export default {
       }
     },
 
-    // Fetch all comments from the server 
+    // Fetch all comments from the server
     async fetchComments() {
       this.loading = true;
       this.error = null;
-      
+
       try {
         const data = await getAllComments();
         this.comments = data || [];
@@ -132,9 +132,7 @@ export default {
 
     // Return only comments for the given datasetId
     commentsForDataset(datasetId) {
-      return this.comments.filter(
-        (c) => c.dataset_id === datasetId
-      );
+      return this.comments.filter((c) => c.dataset_id === datasetId);
     },
 
     // Toggling the "comments" filter
@@ -159,7 +157,7 @@ export default {
     },
 
     addNewDataset() {
-      this.router.push("/datasets/register");
+      this.router.push("/user/datasets/register");
     },
   },
 };
@@ -278,9 +276,6 @@ nav a.active:hover {
   border-top: 1px dashed #ccc;
 }
 </style>
-
-
-
 
 <!-- <template>
   <div>
