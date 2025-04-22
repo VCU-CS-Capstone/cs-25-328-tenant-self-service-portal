@@ -96,11 +96,11 @@
     },
     methods: {
       goBack() {
-        this.$router.push('/usecases/register');
+        this.$router.push('/admin/usecases/register');
       },
       continueToNextStep() {
         if (this.selectedDataset) {
-          this.$router.push('/usecases/register/steps/2');
+          this.$router.push('/admin/usecases/register/steps/2');
         }
       }
     }

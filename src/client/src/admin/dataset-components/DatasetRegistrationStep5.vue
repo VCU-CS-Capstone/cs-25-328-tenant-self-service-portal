@@ -242,7 +242,7 @@ import { useRouter } from "vue-router";
 import datasetService from "../../services/dataset.api";
 
 export default {
-  name: "DatasetRegistrationStep5",
+  name: "AdminGDRStep5",
 
   props: {
     formData: {
@@ -379,11 +379,11 @@ export default {
     };
 
     const goToStep = (stepNumber) => {
-      router.push(`/datasets/register/steps/${stepNumber}`);
+      router.push(`/admin/datasets/register/steps/${stepNumber}`);
     };
 
     const goBack = () => {
-      router.push(`/datasets/register/steps/4`);
+      router.push(`/admin/datasets/register/steps/4`);
     };
 
     const submitDataset = async () => {
@@ -421,7 +421,7 @@ export default {
         localStorage.removeItem("datasetFormData");
 
         alert("Dataset submitted successfully for review!");
-        router.push("/datasets");
+        router.push("/admin/datasets");
       } catch (error) {
         console.error("Error submitting dataset:", error);
         errorMessage.value =

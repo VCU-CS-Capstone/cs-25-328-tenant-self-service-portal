@@ -14,8 +14,8 @@
             </button>
             <div class="nav-links" :class="{ 'active': isMenuOpen }">
                 <RouterLink to="/dashboard" @click="isMenuOpen = false">Dashboard</RouterLink>
-                <RouterLink to="/datasets" @click="isMenuOpen = false">Datasets</RouterLink>
-                <RouterLink to="/usecases" @click="isMenuOpen = false">Use Cases</RouterLink>
+                <RouterLink to="/admin/datasets" @click="isMenuOpen = false">Datasets</RouterLink>
+                <RouterLink to="/admin/usecases" @click="isMenuOpen = false">Use Cases</RouterLink>
             </div>
         </div>
     </nav>

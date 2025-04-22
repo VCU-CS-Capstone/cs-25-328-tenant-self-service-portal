@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginScreen from './components/auth-components/LoginScreen.vue'
 import CreateAccountScreen from './components/auth-components/CreateAccountScreen.vue'
 
-import HomeScreen from './components/HomeScreen.vue'
+// import HomeScreen from '../admin/HomeScreen.vue'
 import DatasetGallery from './components/dataset-components/DatasetGallery.vue'
 import UseCaseGallery from './components/usecase-components/UseCaseGallery.vue'
 
@@ -42,12 +42,19 @@ const routes = [
       hideHeader: true,
       requiresAuth: false }
   },
-  { 
-    path: '/dashboard', 
-    component: HomeScreen,
-    meta: { 
-      hideHeader: false,
-      requiresAuth: true }
+  {
+    path: '/dashboard',
+    redirect: () => {
+      const token = localStorage.getItem('token');
+      if (!token) return '/login';
+  
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.is_admin ? '/admin/dashboard' : '/user/dashboard';
+      } catch (e) {
+        return '/login';
+      }
+    }
   },
   { 
     path: '/datasets', 
@@ -123,29 +130,32 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
+  let isAuthenticated = false;
   let isAdmin = false;
-  
+
   if (token) {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
+      isAuthenticated = true;
       isAdmin = !!payload.is_admin;
     } catch (e) {
-      console.error('Error parsing token:', e);
+      console.error('Invalid token:', e);
     }
   }
-  
-  // Redirect based on authentication and admin status
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!token) {
-      next('/login');
-    } else if (to.matched.some(record => record.meta.requiresAdmin) && !isAdmin) {
-      next('/user/dashboard');
-    } else {
-      next();
-    }
-  } else {
-    next();
+
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
+
+  if (requiresAuth && !isAuthenticated) {
+    return next('/login');
   }
-})
+
+  if (requiresAdmin && !isAdmin) {
+    return next('/user/home'); // fallback if a user tries to access admin stuff
+  }
+
+  return next();
+});
+
 
 export default router;

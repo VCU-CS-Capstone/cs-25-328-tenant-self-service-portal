@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_URL = process.env.VUE_APP_API_URL;
 
-// Create axios instance with default headers for auth
 const createApiInstance = () => {
   const token = localStorage.getItem('token');
   return axios.create({

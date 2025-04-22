@@ -77,7 +77,7 @@
       // Your existing methods remain the same
       const saveDraft = async () => {
         try {
-          await axios.post(`${process.env.VUE_APP_API_URL}/usecases`, {
+          await axios.post(`${process.env.VUE_APP_API_URL}/admin/usecases`, {
             ...formData.value,
             status: 'DRAFT'
           })
@@ -92,16 +92,16 @@
         const nextStep = currentStep.value + 1
         if (nextStep <= totalSteps) {
           localStorage.setItem('usecaseFormData', JSON.stringify(formData.value))
-          router.push(`/usecases/register/steps/${nextStep}`)
+          router.push(`/admin/usecases/register/steps/${nextStep}`)
         }
       }
   
       const handleBack = () => {
         const prevStep = currentStep.value - 1
         if (prevStep >= 1) {
-          router.push(`/usecases/register/steps/${prevStep}`)
+          router.push(`/admin/usecases/register/steps/${prevStep}`)
         } else {
-          router.push('/usecases/register')
+          router.push('/admin/usecases/register')
         }
       }
   

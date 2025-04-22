@@ -115,13 +115,13 @@ export default {
       }
     },
     addNewUseCase() {
-      this.router.push('/usecases/register/');
+      this.router.push('/admin/usecases/register/');
     },
     reviewUseCases() {
-      this.router.push('/usecases');
+      this.router.push('/admin/usecases');
     },
     viewAllUseCases() {
-      this.router.push('/usecases');
+      this.router.push('/admin/usecases');
     },
     edit(id) {
       console.log(`Edit item ${id}`);
@@ -130,13 +130,13 @@ export default {
       console.log(`Delete use case ${id}`);
     },
     addNewDataset() {
-      this.router.push('/datasets/register/');
+      this.router.push('/admin/datasets/register/');
     },
     reviewDatasets() {
-      this.router.push('/datasets');
+      this.router.push('/admin/datasets?filter=review');
     },
     viewAllDatasets() {
-      this.router.push('/datasets');
+      this.router.push('/admin/datasets');
     },
     favoriteDataset(id) {
       console.log(`Delete dataset ${id}`);

@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <!-- Conditional rendering of Header -->
-    <Header v-if="showHeader" />
+    <!-- Show Header if route doesn't disable it -->
+    <component
+      :is="currentHeader"
+      v-if="showHeader"
+    />
+    
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
@@ -9,19 +13,37 @@
 </template>
 
 <script>
-import Header from './components/Header.vue';
+import AdminHeader from './admin/Header.vue';
+import UserHeader from './user/Header.vue';
 
 export default {
   components: {
-    Header,
+    AdminHeader,
+    UserHeader
   },
   computed: {
     showHeader() {
       return !this.$route.meta.hideHeader;
     },
-  },
+    isLoggedIn() {
+      const userStr = localStorage.getItem('user');
+      return !!userStr;
+    },
+    currentHeader() {
+      const userStr = localStorage.getItem('user');
+      if (!userStr) return null; 
+      try {
+        const user = JSON.parse(userStr);
+        return user.is_admin ? 'AdminHeader' : 'UserHeader';
+      } catch (e) {
+        console.error('Header role error:', e);
+        return null;
+      }
+    }
+  }
 };
 </script>
+
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');

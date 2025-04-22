@@ -115,7 +115,7 @@
 import axios from 'axios';
 
 export default {
-    name: 'DatasetRegistrationStep3',
+    name: 'AdminGDRStep3',
     
     props: {
         formData: {
@@ -185,7 +185,7 @@ export default {
                     const producersRes = await axios.get(`${API_URL}/producers`);
                     this.availableProducers = producersRes.data;
                 } catch (error) {
-                    console.error('Error fetching producers:', error);
+                    // console.error('Error fetching producers:', error);
                     // Add mock producers for testing if API fails
                     this.availableProducers = [
                         {
@@ -209,7 +209,7 @@ export default {
                     const consumersRes = await axios.get(`${API_URL}/consumers`);
                     this.availableConsumers = consumersRes.data;
                 } catch (error) {
-                    console.error('Error fetching consumers:', error);
+                    // console.error('Error fetching consumers:', error);
                     // Add mock consumers for testing if API fails
                     this.availableConsumers = [
                         {
@@ -233,7 +233,7 @@ export default {
                     const sourcesRes = await axios.get(`${API_URL}/datasources`);
                     this.availableDataSources = sourcesRes.data;
                 } catch (error) {
-                    console.error('Error fetching data sources:', error);
+                    // console.error('Error fetching data sources:', error);
                     // Add mock data sources for testing if API fails
                     this.availableDataSources = [
                         {

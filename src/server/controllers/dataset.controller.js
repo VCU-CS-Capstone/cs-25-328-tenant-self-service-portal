@@ -148,7 +148,7 @@ exports.submitDataset = async (req, res) => {
 };
 
 exports.approveDataset = async (req, res) => {
-  if (req.user && req.user.role !== 'admin') {
+  if (!req.user?.is_admin) {
     return res.status(403).json({ message: 'Only admins can approve datasets' });
   }
   await changeStatus(req, res, 'COMPLETED');

@@ -98,11 +98,11 @@ export default {
             }
         },
         continueToSteps() {
-            this.router.push('/usecases/register/steps/1');
+            this.router.push('/admin/usecases/register/steps/1');
         },
         goBack() {
             if (confirm("Are you sure you want to cancel this registration?")) {
-                this.router.push('/usecases');
+                this.router.push('/admin/usecases');
             }
         }
     }

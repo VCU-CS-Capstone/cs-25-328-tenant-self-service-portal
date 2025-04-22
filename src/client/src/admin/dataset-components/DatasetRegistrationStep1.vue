@@ -100,7 +100,7 @@
 
 <script>
 export default {
-  name: 'DatasetRegistrationStep1',
+  name: 'AdminGDRStep1',
   
   props: {
     formData: {
