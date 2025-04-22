@@ -37,6 +37,8 @@
                     <div class="error-message" v-if="adminPasskeyError">{{ adminPasskeyError }}</div>
                 </div>
 
+                <p v-if="formError" class="error-message">{{ formError }}</p>
+
                 <div class="button-group">
                     <button type="button" class="btn-back" @click="navigateBack">
                         <span class="arrow-left">←</span>
@@ -45,7 +47,7 @@
                 </div>
             </form>
 
-            <p v-if="formError" class="error-message">{{ formError }}</p>
+            
 
         </div>
     </div>
