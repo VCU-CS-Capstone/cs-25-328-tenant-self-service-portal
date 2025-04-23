@@ -214,7 +214,7 @@ export default {
     statusLabels() {
       return {
         DRAFT: "DRAFT",
-        PENDING_REVIEW: "PENDING REVIEW",
+        PENDING_REVIEW: "PENDING REVIEW",
         COMPLETED: "APPROVED",
       };
     },

@@ -12,7 +12,7 @@
                 {{ useCase.name }}
                 <span>
                   <button @click="favoriteUseCase(useCase.id)">⭐</button>
-                  <button @click="edit(useCase.id)">✏️</button>
+                  <button @click="editUsecase(useCase.id)">✏️</button>
                 </span>
               </li>
             </ul>
@@ -35,7 +35,7 @@
         {{ dataset.dataset_name }}
         <span>
           <button @click="favoriteDataset(dataset.dataset_id)">⭐</button>
-          <button @click="edit(dataset.dataset_id)">✏️</button>
+          <button @click="editDataset(dataset.dataset_id)">✏️</button>
         </span>
       </li>
     </ul>
@@ -123,8 +123,13 @@ export default {
     viewAllUseCases() {
       this.router.push('/user/usecases');
     },
-    edit(id) {
+    editDataset(id) {
       console.log(`Edit item ${id}`);
+      this.router.push(`/user/datasets/register/steps/5/${id}`);
+    },
+    editUsecase(id) {
+      console.log(`Edit item ${id}`);
+      this.router.push(`/user/usecase/register/steps/5/${id}`);
     },
     favoriteUseCase(id) {
       console.log(`Delete use case ${id}`);
@@ -133,7 +138,7 @@ export default {
       this.router.push('/user/datasets/register/');
     },
     reviewDatasets() {
-      this.router.push('/user/datasets');
+      this.router.push('/user/datasets?filter=review');
     },
     viewAllDatasets() {
       this.router.push('/user/datasets');

@@ -41,15 +41,15 @@ app.get('/', (req, res) => {
   res.send('Hello from the server!');
 });
 
-app.get('/api/test', async (req, res) => {
-  try {
-    const [rows] = await pool.execute('SELECT * FROM users');
-    res.json(rows);
-  } catch (err) {
-    console.error('Database error:', err);
-    res.status(500).json({ message: 'Error fetching data' });
-  }
-});
+// app.get('/api/test', async (req, res) => {
+//   try {
+//     const [rows] = await pool.execute('SELECT * FROM users');
+//     res.json(rows);
+//   } catch (err) {
+//     console.error('Database error:', err);
+//     res.status(500).json({ message: 'Error fetching data' });
+//   }
+// });
 
 // === 6. 404 & Error Handlers ===
 app.use((req, res) => {
