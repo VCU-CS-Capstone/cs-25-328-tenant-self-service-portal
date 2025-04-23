@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import AdminHeader from './admin/Header.vue';
-import UserHeader from './user/Header.vue';
+import AdminHeader from './components/admin/Header.vue';
+import UserHeader from './components/user/Header.vue';
 
 export default {
   components: {

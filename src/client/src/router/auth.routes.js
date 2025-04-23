@@ -1,5 +1,5 @@
-import LoginScreen from '../components/auth-components/LoginScreen.vue';
-import CreateAccountScreen from '../components/auth-components/CreateAccountScreen.vue';
+import LoginScreen from '../components/auth/LoginScreen.vue';
+import CreateAccountScreen from '../components/auth/CreateAccountScreen.vue';
 
 export const authRoutes = [
   {

@@ -3,7 +3,7 @@
     <!-- ◂ brand / logout ▸ -->
     <div class="nav-left">
       <a href="#" class="brand-link" @click.prevent="handleLogoClick">
-        <img alt="Gallery logo" class="logo" src="../assets/figmalogo.png" />
+        <img alt="Gallery logo" class="logo" src="../../assets/figmalogo.png" />
         <h1 class="title">Gallery</h1>
       </a>
     </div>

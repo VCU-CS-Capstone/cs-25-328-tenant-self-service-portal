@@ -1,17 +1,17 @@
-import AdminDashboard from '../admin/HomeScreen.vue';
-import DatasetGallery from '../admin/dataset-components/DatasetGallery.vue';
-import DatasetRegistrationOverview from '../admin/dataset-components/DatasetRegistrationOverview.vue';
-import DatasetRegistrationWrapper from '../admin/dataset-components/DatasetRegistrationWrapper.vue';
-import DatasetRegistrationStep1 from '../admin/dataset-components/DatasetRegistrationStep1.vue';
-import DatasetRegistrationStep2 from '../admin/dataset-components/DatasetRegistrationStep2.vue';
-import DatasetRegistrationStep3 from '../admin/dataset-components/DatasetRegistrationStep3.vue';
-import DatasetRegistrationStep4 from '../admin/dataset-components/DatasetRegistrationStep4.vue';
-import DatasetRegistrationStep5 from '../admin/dataset-components/DatasetRegistrationStep5.vue';
+import AdminDashboard from '../components/admin/HomeScreen.vue';
+import DatasetGallery from '../components/admin/dataset-components/DatasetGallery.vue';
+import DatasetRegistrationOverview from '../components/admin/dataset-components/DatasetRegistrationOverview.vue';
+import DatasetRegistrationWrapper from '../components/admin/dataset-components/DatasetRegistrationWrapper.vue';
+import DatasetRegistrationStep1 from '../components/admin/dataset-components/DatasetRegistrationStep1.vue';
+import DatasetRegistrationStep2 from '../components/admin/dataset-components/DatasetRegistrationStep2.vue';
+import DatasetRegistrationStep3 from '../components/admin/dataset-components/DatasetRegistrationStep3.vue';
+import DatasetRegistrationStep4 from '../components/admin/dataset-components/DatasetRegistrationStep4.vue';
+import DatasetRegistrationStep5 from '../components/admin/dataset-components/DatasetRegistrationStep5.vue';
 
-import UseCaseGallery from '../admin/usecase-components/UseCaseGallery.vue';
-import UseCaseRegistrationOverview from '../admin/usecase-components/UseCaseRegistrationOverview.vue';
-import UseCaseRegistrationWrapper from '../admin/usecase-components/UseCaseRegistrationWrapper.vue';
-import UseCaseRegistrationStep1 from '../admin/usecase-components/UseCaseRegistrationStep1.vue';
+import UseCaseGallery from '../components/admin/usecase-components/UseCaseGallery.vue';
+import UseCaseRegistrationOverview from '../components/admin/usecase-components/UseCaseRegistrationOverview.vue';
+import UseCaseRegistrationWrapper from '../components/admin/usecase-components/UseCaseRegistrationWrapper.vue';
+import UseCaseRegistrationStep1 from '../components/admin/usecase-components/UseCaseRegistrationStep1.vue';
 
 export const adminRoutes = [
   {

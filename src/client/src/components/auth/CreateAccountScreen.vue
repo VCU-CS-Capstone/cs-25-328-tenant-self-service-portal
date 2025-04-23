@@ -46,11 +46,11 @@
                     <button type="submit" class="btn-create">Create account</button>
                 </div>
             </form>
-
-            
-
         </div>
+        <label for="sponsor"><br><br>Sponsored by</label>
+        <img alt="Gallery logo" class="logo" src="../../assets/capitalonelogo.png" />
     </div>
+    
 </template>
 
 <script>
@@ -127,8 +127,9 @@ export default {
 /* Container styling */
 .auth-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;      /* Stack children vertically */
+    justify-content: center;     /* Center vertically */
+    align-items: center;         /* Center horizontally */
     height: 100vh;
     background-color: #017291;
 }
@@ -142,6 +143,13 @@ export default {
     padding-right: 5rem;
     border-radius: 10px;
     text-align: left;
+}
+
+.logo {
+    width: 180px;      /* Change this value to your desired width */
+    height: auto;      /* Maintains aspect ratio */
+    margin-top: 2rem;  /* Optional: space from the card above */
+    display: block;    /* Ensures the image behaves as a block element */
 }
 
 h2 {

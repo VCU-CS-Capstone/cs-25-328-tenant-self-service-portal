@@ -1,17 +1,17 @@
-import UserDashboard from '../user/HomeScreen.vue';
-import DatasetGallery from '../user/dataset-components/DatasetGallery.vue';
-import DatasetRegistrationOverview from '../user/dataset-components/DatasetRegistrationOverview.vue';
-import DatasetRegistrationWrapper from '../user/dataset-components/DatasetRegistrationWrapper.vue';
-import DatasetRegistrationStep1 from '../user/dataset-components/DatasetRegistrationStep1.vue';
-import DatasetRegistrationStep2 from '../user/dataset-components/DatasetRegistrationStep2.vue';
-import DatasetRegistrationStep3 from '../user/dataset-components/DatasetRegistrationStep3.vue';
-import DatasetRegistrationStep4 from '../user/dataset-components/DatasetRegistrationStep4.vue';
-import DatasetRegistrationStep5 from '../user/dataset-components/DatasetRegistrationStep5.vue';
+import UserDashboard from '../components/user/HomeScreen.vue';
+import DatasetGallery from '../components/user/dataset-components/DatasetGallery.vue';
+import DatasetRegistrationOverview from '../components/user/dataset-components/DatasetRegistrationOverview.vue';
+import DatasetRegistrationWrapper from '../components/user/dataset-components/DatasetRegistrationWrapper.vue';
+import DatasetRegistrationStep1 from '../components/user/dataset-components/DatasetRegistrationStep1.vue';
+import DatasetRegistrationStep2 from '../components/user/dataset-components/DatasetRegistrationStep2.vue';
+import DatasetRegistrationStep3 from '../components/user/dataset-components/DatasetRegistrationStep3.vue';
+import DatasetRegistrationStep4 from '../components/user/dataset-components/DatasetRegistrationStep4.vue';
+import DatasetRegistrationStep5 from '../components/user/dataset-components/DatasetRegistrationStep5.vue';
 
-import UseCaseGallery from '../user/usecase-components/UseCaseGallery.vue';
-import UseCaseRegistrationOverview from '../user/usecase-components/UseCaseRegistrationOverview.vue';
-import UseCaseRegistrationWrapper from '../user/usecase-components/UseCaseRegistrationWrapper.vue';
-import UseCaseRegistrationStep1 from '../user/usecase-components/UseCaseRegistrationStep1.vue';
+import UseCaseGallery from '../components/user/usecase-components/UseCaseGallery.vue';
+import UseCaseRegistrationOverview from '../components/user/usecase-components/UseCaseRegistrationOverview.vue';
+import UseCaseRegistrationWrapper from '../components/user/usecase-components/UseCaseRegistrationWrapper.vue';
+import UseCaseRegistrationStep1 from '../components/user/usecase-components/UseCaseRegistrationStep1.vue';
 
 export const userRoutes = [
   {

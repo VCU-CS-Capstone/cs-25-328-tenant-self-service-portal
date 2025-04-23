@@ -5,7 +5,7 @@
     <div class="nav-left">
       <!-- clicking the logo asks to log out -->
       <a href="#" class="brand-link" @click.prevent="handleLogoClick">
-        <img alt="Gallery logo" class="logo" src="../assets/figmalogo.png" />
+        <img alt="Gallery logo" class="logo" src="../../assets/figmalogo.png" />
         <h1 class="title">Gallery</h1>
       </a>
     </div>

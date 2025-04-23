@@ -38,7 +38,7 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import datasetService from '../../services/dataset.api'
+import datasetService from '../../../services/dataset.api'
 
 export default {
   name: 'DatasetRegistrationWrapper',
@@ -112,16 +112,16 @@ export default {
       if (nextStep <= totalSteps) {
         // Save current progress before proceeding
         localStorage.setItem('datasetFormData', JSON.stringify(formData.value))
-        router.push(`/user/datasets/register/steps/${nextStep}`)
+        router.push(`/admin/datasets/register/steps/${nextStep}`)
       }
     }
 
     const handleBack = () => {
       const prevStep = currentStep.value - 1
       if (prevStep >= 1) {
-        router.push(`/user/datasets/register/steps/${prevStep}`)
+        router.push(`/admin/datasets/register/steps/${prevStep}`)
       } else {
-        router.push('/user/datasets/register')
+        router.push('/admin/datasets/register')
       }
     }
 
