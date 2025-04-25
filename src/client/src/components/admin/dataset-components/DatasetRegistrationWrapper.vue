@@ -80,6 +80,7 @@ export default {
       }
     );
 
+    
     // Show status message
     const showStatus = (message, type = 'info', duration = 3000) => {
       statusMessage.value = message
