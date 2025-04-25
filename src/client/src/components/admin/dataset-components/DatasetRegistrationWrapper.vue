@@ -74,8 +74,11 @@ export default {
     })
 
     const progressPercentage = computed(() => {
-      return ((currentStep.value - 1) / (totalSteps - 1)) * 100
-    })
+      return totalSteps > 1
+        ? ((currentStep.value - 1) / (totalSteps - 1)) * 100
+        : 100;
+      }
+    );
 
     // Show status message
     const showStatus = (message, type = 'info', duration = 3000) => {
