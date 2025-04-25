@@ -145,22 +145,20 @@ export default {
     viewAllDatasets() {
       this.router.push("/admin/datasets");
     },
-
-    /* ---------- actions ---------- */
     editDataset(id) {
       const ds = this.datasets.find((d) => d.dataset_id === id);
       // block editing unless draft or pending review
       if (!ds || !["PENDING_REVIEW", "DRAFT"].includes(ds.status)) return;
       this.router.push(`/admin/datasets/register/steps/5/${id}`);
     },
-    editUsecase(id) {
-      this.router.push(`/admin/usecase/register/steps/5/${id}`);
+    editUsecase() {
+      // this.router.push(`/admin/usecase/register/steps/5/${id}`);
     },
-    favoriteUseCase(id) {
-      console.log(`Favorite use case ${id}`);
+    favoriteUseCase() {
+      console.log(`deleted use case`);
     },
     favoriteDataset(id) {
-      console.log(`Favorite dataset ${id}`);
+      console.log(`deleted dataset ${id}`);
     },
   },
 };
