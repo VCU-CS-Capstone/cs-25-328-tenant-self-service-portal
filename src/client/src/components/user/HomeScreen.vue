@@ -38,18 +38,13 @@
                   <button @click="favoriteDataset(dataset.dataset_id)">
                     ⭐
                   </button>
-                  <!-- Pencil always occupies space; hidden when not editable -->
+                  <!-- Pencil will always occupies space; hidden when not editable -->
                   <button
                     @click="editDataset(dataset.dataset_id)"
                     :disabled="
-                      !['PENDING_REVIEW', 'DRAFT'].includes(dataset.status)
-                    "
+                      !['PENDING_REVIEW', 'DRAFT'].includes(dataset.status)"
                     :class="{
-                      invisible: !['PENDING_REVIEW', 'DRAFT'].includes(
-                        dataset.status
-                      ),
-                    }"
-                  >
+                      invisible: !['PENDING_REVIEW', 'DRAFT'].includes(dataset.status),}">
                     ✏️
                   </button>
                 </span>
@@ -126,7 +121,6 @@ export default {
         this.loading = false;
       }
     },
-    /* ---------- navigation helpers ---------- */
     addNewUseCase() {
       this.router.push("/user/usecases/register/");
     },
@@ -145,29 +139,26 @@ export default {
     viewAllDatasets() {
       this.router.push("/user/datasets");
     },
-
-    /* ---------- actions ---------- */
     editDataset(id) {
       const ds = this.datasets.find((d) => d.dataset_id === id);
       // block editing unless draft or pending review
       if (!ds || !["PENDING_REVIEW", "DRAFT"].includes(ds.status)) return;
       this.router.push(`/user/datasets/register/steps/5/${id}`);
     },
-    editUsecase(id) {
-      this.router.push(`/user/usecase/register/steps/5/${id}`);
+    editUsecase() {
+      // this.router.push(`/user/usecase/register/steps/5/${id}`);
     },
-    favoriteUseCase(id) {
-      console.log(`Favorite use case ${id}`);
+    favoriteUseCase() {
+      console.log(`deleted use case`);
     },
     favoriteDataset(id) {
-      console.log(`Favorite dataset ${id}`);
+      console.log(`deleted dataset ${id}`);
     },
   },
 };
 </script>
 
 <style scoped>
-/* Page Layout */
 .page {
   height: calc(100vh - 80px);
   overflow: hidden;
